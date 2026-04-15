@@ -1,7 +1,7 @@
 # Identificação de Inconformidades no Saneamento Básico
 
 ## Sobre o Projeto
-O presente projeto tem como finalidade o desenvolvimento de uma plataforma web colaborativa voltada à identificação, registro e monitoramento de inconformidades relacionadas ao saneamento básico no município de Arapiraca – AL.
+O presente projeto está sendo desenvolvido pelos discentes do curso de Ciência da Computação na [Universidade Federal de Alagoas - Arapiraca](https://ufal.br/), com finalidade em desenvolver uma plataforma web colaborativa voltada à identificação, registro e monitoramento de inconformidades relacionadas ao saneamento básico no município de Arapiraca – AL.
 
 A proposta surge diante da carência de mecanismos eficientes de fiscalização e comunicação entre a população e o poder público. Nesse contexto, a solução permite que cidadãos registrem ocorrências por meio de evidências visuais associadas à geolocalização, contribuindo para o aumento da transparência, do engajamento social e do suporte à tomada de decisão por parte da gestão pública.
 
@@ -57,9 +57,10 @@ Desenvolver um **Produto Mínimo Viável (MVP)** que possibilite:
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
 
 ## Demais informações
-- [Notion:](https://www.notion.so/AB2-Atividade-II-Sprint-1-343a6119aa718031a00ddacb1a673757?source=copy_link)
-- [Repositório:](https://github.com/saeearapiraca-boop/app)
-- [Figma:](https://www.figma.com/design/DMTaAyC02g7qIc969hosFx/Sem-t%C3%ADtulo?node-id=0-1&t=gpqhnejV8z5WfFmj-1)
+- [Notion](https://www.notion.so/AB2-Atividade-II-Sprint-1-343a6119aa718031a00ddacb1a673757?source=copy_link)
+- [Repositório](https://github.com/saeearapiraca-boop/app)
+- [Figma](https://www.figma.com/design/DMTaAyC02g7qIc969hosFx/Sem-t%C3%ADtulo?node-id=0-1&t=gpqhnejV8z5WfFmj-1)
+- [Quadro de Acompanhamento (Scrum Board)](https://github.com/users/saeearapiraca-boop/projects/1)
 
 ---
 
@@ -90,7 +91,20 @@ O desenvolvimento do projeto é conduzido com base na metodologia ágil **Scrum*
 - Reuniões periódicas de acompanhamento e alinhamento.
 
 ---
+## Protótipo
+Figura 1.
 
+<img width="835" height="533" alt="image" src="https://github.com/user-attachments/assets/2c641450-c1a6-42aa-b01b-0d1b2a048efc" />
+
+Figura 2.
+
+<img width="861" height="568" alt="image" src="https://github.com/user-attachments/assets/c22d99b2-ef5b-4da9-b7b3-b410ddbaed9b" />
+
+Figura 3.
+
+<img width="650" height="569" alt="image" src="https://github.com/user-attachments/assets/57188dc4-34ed-41fa-8081-102b636e3c64" />
+
+---
 ## Equipe do Projeto
 
 - [Jhony Wictor do Nascimento Santos](https://github.com/jhonywsantos)  
