@@ -54,8 +54,12 @@ Desenvolver um **Produto Mínimo Viável (MVP)** que possibilite:
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
-![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+
+## Demais informações
+- [Notion:](https://www.notion.so/AB2-Atividade-II-Sprint-1-343a6119aa718031a00ddacb1a673757?source=copy_link)
+- [Repositório:](https://github.com/saeearapiraca-boop/app)
+- [Figma:](https://www.figma.com/design/DMTaAyC02g7qIc969hosFx/Sem-t%C3%ADtulo?node-id=0-1&t=gpqhnejV8z5WfFmj-1)
 
 ---
 
@@ -99,4 +103,4 @@ O desenvolvimento do projeto é conduzido com base na metodologia ágil **Scrum*
 - [Liedson da Silva Santos](https://github.com/Liedson1)
 - [Mayara da Silva Barbosa](https://github.com/)
 - [Rian Carlos da Silva dos Santos](https://github.com/rian1632)
-- [Washington Medeiros Mazzone Gaia](https://github.com/washingmg)  
+- [Washington Medeiros Mazzone Gaia](https://github.com/washingmg)
