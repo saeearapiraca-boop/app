@@ -101,6 +101,6 @@ O desenvolvimento do projeto é conduzido com base na metodologia ágil **Scrum*
 - [Lucas Rosendo de Farias](https://github.com/LucaRosendo)  
 - [Luis Gustavo Correia de Oliveira](https://github.com/LuisGustavoCo)  
 - [Liedson da Silva Santos](https://github.com/Liedson1)
-- [Mayara da Silva Barbosa](https://github.com/)
+- [Mayara da Silva Barbosa](https://github.com/MayaraBarbosa12)
 - [Rian Carlos da Silva dos Santos](https://github.com/rian1632)
 - [Washington Medeiros Mazzone Gaia](https://github.com/washingmg)
