@@ -1,6 +1,10 @@
 import "./LoginPage.css";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+    
+  const navigate = useNavigate();
+
   return (
     <div className="page">
 
@@ -22,7 +26,7 @@ export default function LoginPage() {
           Já sou usuário
         </button>
 
-        <button className="btn primary">
+        <button className="btn primary" onClick={() => navigate("/registrar")}>
           Criar Conta
         </button>
       </div>

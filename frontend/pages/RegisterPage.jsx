@@ -1,7 +1,10 @@
 import "./RegisterPage.css";
-import "./LoginPage.css";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="page register-page">
 
@@ -10,7 +13,7 @@ export default function RegisterPage() {
 
         <div className="header">
             <span 
-            className="back">
+            className="back" onClick={() => navigate("/")}>
                 <i class="bi bi-arrow-left"></i>
             </span>
             <h2>Criar Conta</h2>
