@@ -1,0 +1,91 @@
+.register-page .top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 40px 0px 20px 0px;
+  gap: 20px;
+}
+
+.register-page .header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.register-page .back {
+  position: absolute;
+  left: 20px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.description {
+  font-size: 13px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255,255,255,0.6);
+  padding: 8px 0;
+  color: white;
+  outline: none;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.terms input {
+  accent-color: #22c55e; 
+}
+
+.btn.primary {
+  margin-top: 15px;
+}
+
+.form input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.bottom {
+  backdrop-filter: blur(6px);
+  padding-right: 0px;
+}
+
+.bottom .description {
+    margin: 10px 0px;
+}
+
+.bottom p {
+  font-size: 16px;
+}
+
+.bottom label, span, p {
+  text-align: left;
+}
