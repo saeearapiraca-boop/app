@@ -1,16 +1,33 @@
-# React + Vite
+# React + JavaScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto contém o frontend da plataforma **SAEEARAPIRACA**, desenvolvido com **React** e estruturado para manter a separação clara entre a interface e o futuro servidor de dados. O ambiente foi configurado para ser leve e extremamente rápido durante o desenvolvimento através do **Vite**.
 
-Currently, two official plugins are available:
+## Como Iniciar
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Como este projeto utiliza o Vite como ferramenta de build e ambiente de desenvolvimento, siga os passos abaixo para rodar a aplicação localmente:
 
-## React Compiler
+1. **Acesse a pasta do frontend:**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+        cd frontend
 
-## Expanding the ESLint configuration
+2. **Instale as dependências:**
+ 
+        npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+3. **Inicie o servidor de desenvolvimento:** 
+
+        npm run dev
+
+
+## Estrutura do Projeto
+
+A organização segue um padrão de **Arquitetura Desacoplada**, garantindo que o frontend e o backend operem de forma independente dentro da pasta principal:
+
+* **`app/frontend/`**: Contém todo o código React, componentes e configurações do Vite.
+* **`app/backend/`**: Pasta destinada à implementação futura da lógica do servidor e integração de APIs.
+
+## Tecnologias e Funcionalidades
+
+* **Fast Refresh (HMR)**: O ambiente está configurado para atualizar a interface instantaneamente ao salvar arquivos.
+* **Vite Config**: O arquivo `vite.config.js` gerencia o ambiente de desenvolvimento, facilitando futuras configurações de comunicação com o backend.
