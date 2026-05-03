@@ -2,59 +2,58 @@ import "./RegisterPage.css";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-
   const navigate = useNavigate();
 
   return (
     <div className="page register-page">
-
-    <div className="top">
+      <div className="top">
         <img src="/logoSAEE.png" alt="Logo" className="logo" />
 
         <div className="header">
-            <span 
-            className="back" onClick={() => navigate("/")}>
-                <i className="bi bi-arrow-left"></i>
-            </span>
-            <h2>Criar Conta</h2>
+          <span className="back" onClick={() => navigate("/")}>
+            <i className="bi bi-arrow-left"></i>
+          </span>
+          <h2>Criar Conta</h2>
         </div>
-    </div>
+      </div>
 
-    <div className="bottom">
+      <div className="bottom">
         <p className="description">
-        Para criar sua conta preencha todas as informações abaixo.
+          Para criar sua conta preencha todas as informações abaixo.
         </p>
 
         <form className="form">
+          <label>Nome Completo:</label>
+          <input type="text" />
 
-        <label>Nome Completo:</label>
-        <input type="text" />
+          <label>Data de Nascimento:</label>
+          <input type="date" />
 
-        <label>Data de Nascimento:</label>
-        <input type="date" />
+          <label>Sexo:</label>
+          <select className="select-field">
+            <option value="" disabled selected>
+              Selecione uma opção
+            </option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+            <option value="prefiro-nao-dizer">Prefiro não dizer</option>
+          </select>
 
-        <label>Sexo:</label>
-        <input type="text" />
+          <label>Nome de Usuário:</label>
+          <input type="text" />
 
-        <label>Nome de Usuário:</label>
-        <input type="text" />
+          <label>Senha:</label>
+          <input type="password" />
 
-        <label>Senha:</label>
-        <input type="password" />
-
-        <div className="terms">
+          <div className="terms">
             <input type="checkbox" />
             <span>Aceitar os termos e as políticas de condições de uso</span>
-        </div>
+          </div>
 
-        <button className="btn primary">
-            Finalizar Conta
-        </button>
-
+          <button className="btn primary">Finalizar Conta</button>
         </form>
-
-    </div>
-
+      </div>
     </div>
   );
 }
