@@ -14,7 +14,7 @@ export default function RegisterPage() {
         <div className="header">
             <span 
             className="back" onClick={() => navigate("/")}>
-                <i class="bi bi-arrow-left"></i>
+                <i className="bi bi-arrow-left"></i>
             </span>
             <h2>Criar Conta</h2>
         </div>
