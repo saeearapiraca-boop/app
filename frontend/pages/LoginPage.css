@@ -1,0 +1,68 @@
+.page { /* ocupa toda a tela corretamente */
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  flex: 1;
+  background: url("https://www.transparenttextures.com/patterns/cubes.png");
+  display: flex;
+  justify-content: center;
+
+  align-items: flex-start;
+  padding-top: 15vh;
+}
+
+.logo {
+  width: 150px;  
+  height: auto;
+}
+
+.bottom {
+  background: #2f5fa7;
+  padding: 25px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  color: white;
+  text-align: center;
+
+  min-height: 55%;
+  flex-shrink: 0;
+}
+
+.bottom p {
+  margin: 20px;
+  font-size: 16px;
+}
+
+.btn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  background: #e6e1c7;
+  color: #333;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, #1fa2ff, #12d8fa);
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: #d9d5c2;
+}
+
+/* botão principal */
+.btn.primary:hover {
+  filter: brightness(1.1);
+}
