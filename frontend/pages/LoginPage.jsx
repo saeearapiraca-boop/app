@@ -6,7 +6,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="page">
+    <div className="page login-page">
 
       <div className="top">
         <img 
