@@ -62,15 +62,12 @@ h2 {
   cursor: pointer;
 }
 
-<<<<<<< Updated upstream
 .link:hover {
   text-decoration: underline;
 }
 
-.bottom label, span, p {
+.bottom label,
+.bottom span,
+.bottom p {
   text-align: left;
-=======
-.btn.primary:hover {
-  filter: brightness(1.1);
->>>>>>> Stashed changes
 }
