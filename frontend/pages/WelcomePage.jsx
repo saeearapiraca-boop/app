@@ -1,12 +1,12 @@
-import "./LoginPage.css";
+import "./WelcomePage.css";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
+export default function WelcomePage() {
     
   const navigate = useNavigate();
 
   return (
-    <div className="page login-page">
+    <div className="page welcome-page">
 
       <div className="top">
         <img 
