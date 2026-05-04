@@ -10,9 +10,11 @@ export default function LoginPage() {
         <img src="/logoSAEE.png" alt="Logo" className="logo" />
 
         <div className="header">
-          <h2>Login</h2>
-        </div>
-      </div>
+        <span className="back" onClick={() => navigate("/")}>
+           <i className="bi bi-arrow-left"></i>
+        </span>
+        <h2>Fazer Login</h2>
+      </div></div>
 
       <div className="bottom">
         <p className="description">

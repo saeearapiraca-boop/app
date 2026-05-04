@@ -13,12 +13,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative; 
 }
 
 h2 {
   font-family: 'Poppins', sans-serif;
   color: #2f5fa7;
-  padding-top: 80px;
 }
 
 .description {
@@ -70,4 +70,11 @@ h2 {
 .bottom span,
 .bottom p {
   text-align: left;
+}
+
+.login-page .back {
+  position: absolute;
+  left: 20px;
+  font-size: 22px;
+  cursor: pointer;
 }
