@@ -22,7 +22,7 @@ export default function WelcomePage() {
           <strong>SAEE Arapiraca</strong>
         </p>
 
-        <button className="btn secondary">
+        <button className="btn secondary" onClick={() => navigate("/login")}>
           Já sou usuário
         </button>
 

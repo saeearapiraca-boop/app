@@ -1,0 +1,76 @@
+.login-page .top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding: 40px 0px 20px 0px;
+  gap: 20px;
+}
+
+.login-page .header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #2f5fa7;
+  padding-top: 80px;
+}
+
+.description {
+  font-size: 13px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid rgba(255,255,255,0.6);
+  padding: 8px 0;
+  color: white;
+  outline: none;
+}
+
+.form input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.btn.primary {
+  margin-top: 15px;
+}
+
+.link {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+<<<<<<< Updated upstream
+.link:hover {
+  text-decoration: underline;
+}
+
+.bottom label, span, p {
+  text-align: left;
+=======
+.btn.primary:hover {
+  filter: brightness(1.1);
+>>>>>>> Stashed changes
+}
