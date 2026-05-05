@@ -6,6 +6,9 @@
 
   padding: 40px 0px 20px 0px;
   gap: 20px;
+
+  padding-top: 8vh; 
+  gap: 10vh;         
 }
 
 .login-page .header {

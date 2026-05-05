@@ -4,8 +4,10 @@
   align-items: center;
   justify-content: flex-start;
 
-  padding: 40px 0px 20px 0px;
-  gap: 20px;
+  padding: 40px 0px 54px 0px;
+  padding-top: 8vh;
+  gap: 10vh;
+  
 }
 
 .register-page .header {
