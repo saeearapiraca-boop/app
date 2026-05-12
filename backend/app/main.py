@@ -1,18 +1,23 @@
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+from app.api.v1 import api_router
 from app.core.config import settings
+from app.core.health import get_database_info, verify_database_connection
 from app.core.logger import logger
-from app.core.health import verify_database_connection, get_database_info
+from app.db.database import Base, engine
 
 
 def startup():
-    """
-    Executa verificações ao iniciar a aplicação
-    """
-    
+    """Executa verificações e migrações ao iniciar a aplicação."""
+    # Criar tabelas que ainda não existem no banco
+    Base.metadata.create_all(bind=engine)
+    logger.info("Tabelas verificadas/criadas com sucesso.")
+
     # Verificar conexão com banco de dados
     logger.info("\nVerificando conexão com banco de dados")
-    
+
     if verify_database_connection():
         db_info = get_database_info()
         logger.info("INFO: BANCO DE DADOS OPERANTE")
@@ -26,7 +31,7 @@ def startup():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Gerencia o ciclo de vida da aplicação"""
+    """Gerencia o ciclo de vida da aplicação."""
     startup()
     yield
     logger.info("Encerrando SAAE Arapiraca API...")
@@ -35,10 +40,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url="/openapi.json",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
+
+app.include_router(api_router)
 
 
 @app.get("/")
 def read_root():
     return {"status": "SAAE Arapiraca API está online!"}
+
