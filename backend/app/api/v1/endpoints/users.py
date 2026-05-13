@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.schemas.user import UserCreate, UserRead
+from app.schemas.user import UserCreate, UserCreateResponse
 from app.services.user import register_user
 
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
@@ -10,7 +10,7 @@ router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 
 @router.post(
     "/",
-    response_model=UserRead,
+    response_model=UserCreateResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Cadastrar novo usuário",
     description=(
@@ -21,5 +21,5 @@ router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 def create_user(
     user_in: UserCreate,
     db: Session = Depends(get_db),
-) -> UserRead:
+) -> UserCreateResponse:
     return register_user(db=db, user_in=user_in)

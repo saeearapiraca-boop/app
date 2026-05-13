@@ -12,3 +12,6 @@ __pycache__/
 
 # Banco de dados local (se usar SQLite no futuro)
 *.db
+
+
+../.vscode/
