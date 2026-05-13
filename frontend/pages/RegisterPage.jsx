@@ -9,7 +9,7 @@ export default function RegisterPage() {
     nome: "",
     data: "",
     sexo: "",
-    usuario: "",
+    email: "",
     senha: "",
     termos: false
   });
@@ -41,9 +41,15 @@ export default function RegisterPage() {
       showToast("Selecione o sexo");
       return false;
     }
+        // Validação do e-mail
+    if (!form.email.trim()) {
+      showToast("E-mail obrigatório");
+      return false;
+    }
 
-    if (!form.usuario.trim()) {
-      showToast("Usuário obrigatório");
+    // Validação simples de formato de e-mail
+    if (!/\S+@\S+\.\S+/.test(form.email)) {
+      showToast("Digite um e-mail válido");
       return false;
     }
 
@@ -131,12 +137,12 @@ export default function RegisterPage() {
             <option value="prefiro-nao-dizer">Prefiro não dizer</option>
           </select>
 
-          <label>Nome de Usuário:</label>
+          <label>E-mail:</label>
           <input
-            type="text"
-            value={form.usuario}
+            type="email"
+            value={form.email}
             onChange={(e) =>
-              setForm({ ...form, usuario: e.target.value })
+              setForm({ ...form, email: e.target.value })
             }
           />
 
