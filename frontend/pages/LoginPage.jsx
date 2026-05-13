@@ -6,7 +6,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    usuario: "",
+    email: "",
     senha: ""
   });
 
@@ -80,12 +80,12 @@ export default function LoginPage() {
 
         <form className="form" onSubmit={handleSubmit}>
 
-          <label>Nome de Usuário:</label>
+          <label>E-mail:</label>
           <input
-            type="text"
-            value={form.usuario}
+            type="email"
+            value={form.email}
             onChange={(e) =>
-              setForm({ ...form, usuario: e.target.value })
+              setForm({ ...form, email: e.target.value })
             }
           />
 
