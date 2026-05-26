@@ -33,10 +33,27 @@ export default function ReportPage() {
     setSuccess("");
     setError("");
     setLoading(true);
+
     try {
-      // Simulação de envio para backend
-      // Substitua por chamada real ao backend
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const formData = new FormData();
+      formData.append("descricao", description);
+      formData.append("localizacao", location);
+      formData.append("tipo", type);
+      if (media) {
+        formData.append("midia", media);
+      }
+
+      const baseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+      const response = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data?.detail ?? `Erro ${response.status}`);
+      }
+
       setSuccess("Denúncia registrada com sucesso!");
       setDescription("");
       setLocation("");
@@ -44,7 +61,7 @@ export default function ReportPage() {
       setMedia(null);
       setMediaPreview(null);
     } catch (err) {
-      setError("Erro ao registrar denúncia. Tente novamente.");
+      setError(err.message || "Erro ao registrar denúncia. Tente novamente.");
     } finally {
       setLoading(false);
     }
