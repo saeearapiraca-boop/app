@@ -43,7 +43,7 @@ export default function ReportPage() {
         formData.append("midia", media);
       }
 
-      const baseUrl = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+      const baseUrl = import.meta.env.VITE_API_URL ?? "";
       const response = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
         method: "POST",
         body: formData,
