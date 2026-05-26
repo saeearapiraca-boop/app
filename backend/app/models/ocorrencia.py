@@ -36,6 +36,3 @@ class Ocorrencia(Base):
         onupdate=func.now(),
         nullable=False,
     )
-    # Associação com usuário (descomente para ativar):
-    # usuario_id: Mapped[str] = mapped_column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=True)
-    # usuario: Mapped["User"] = relationship("User")
