@@ -17,7 +17,7 @@ class Ocorrencia(Base):
     descricao = Column(String(500), nullable=False)
     localizacao = Column(String(255), nullable=False)
     tipo = Column(Enum(TipoOcorrencia), nullable=False)
-    midia_url = Column(String(255), nullable=True)
+    midia_url = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     # Se quiser associar a um usuário futuramente, adicione o campo abaixo:
