@@ -3,6 +3,7 @@ import WelcomePage from "../pages/WelcomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ReportPage from "../pages/ReportPage";
+import HomePage from "../pages/HomePage";
 
 function App() {
   return (
@@ -10,8 +11,9 @@ function App() {
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/registrar" element={<RegisterPage />} />
+        <Route path="/registrar" element={<RegisterPage /> }/>
         <Route path="/denuncias" element={<ReportPage />} />
+        <Route path="/home" element={<HomePage />}/>
       </Routes>
     </BrowserRouter>
   );

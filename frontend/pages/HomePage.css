@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+}
+
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+
+  background: #ffffff;
+
+  padding: 16px;
+
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.menu-btn {
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: #16a34a;
+  cursor: pointer;
+}
+
+.logo {
+  width: 60px;
+  height: 30px;
+  background: #9ca3af;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  color: white;
+  font-size: 12px;
+}
+
+.perfil img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Busca */
+
+.search-box {
+  display: flex;
+  align-items: center;
+
+  background: #f0f0f0;
+
+  border-radius: 20px;
+
+  padding: 6px 10px;
+
+  margin-bottom: 18px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-box button {
+  border: none;
+  background: #16a34a;
+  color: white;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+
+/* Mapa */
+
+.map-section {
+  margin-bottom: 24px;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 150px;
+
+  background: #d1d5db;
+
+  border-radius: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #555;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Sections */
+
+.section {
+  margin-bottom: 28px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 14px;
+}
+
+.section-header h3 {
+  font-size: 16px;
+  color: #111827;
+}
+
+.section-header span {
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* Card Problema */
+
+.problem-card {
+  background: #f3f4f6;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.problem-image {
+  width: 100%;
+  height: 120px;
+  background: #bdbdbd;
+}
+
+.problem-content {
+  padding: 14px;
+}
+
+.problem-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.problem-top h4 {
+  color: #16a34a;
+  font-size: 18px;
+}
+
+.bairro {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.status {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.descricao {
+  font-size: 13px;
+  color: #374151;
+
+  margin-bottom: 14px;
+
+  line-height: 1.4;
+}
+
+.problem-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.problem-footer span {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.explorar-btn {
+  margin-left: auto;
+
+  border: none;
+
+  background: #16a34a;
+  color: white;
+
+  padding: 7px 16px;
+
+  border-radius: 20px;
+
+  cursor: pointer;
+}
+
+/* Cards menores */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mini-card {
+  background: #f3f4f6;
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.mini-image {
+  width: 100%;
+  height: 80px;
+
+  background: #bdbdbd;
+
+  border-radius: 12px;
+
+  margin-bottom: 10px;
+}
+
+.mini-card h4 {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.mini-card p {
+  font-size: 12px;
+  color: #4b5563;
+
+  margin-bottom: 10px;
+}
+
+.mini-card span {
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+/* Footer */
+
+.bottom-nav {
+  width: 100%;
+  height: 55px;
+
+  background: #e5e7eb;
+
+  border-radius: 22px;
+
+  margin-top: 20px;
+}
+.map {
+  width: 100%;
+  height: 350px;
+  border-radius: 20px;
+}
+
+.leaflet-container {
+  border-radius: 20px;
+}
