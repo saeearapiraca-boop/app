@@ -4,16 +4,20 @@ import { useState } from "react";
 import UserService from "../src/services/userService";
 
 export default function LoginPage() {
+
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", senha: "" });
   const [toasts, setToasts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const showToast = (msg, type = "error") => {
+
     const id = Date.now();
     setToasts((prev) => [...prev, { id, msg, type }]);
     setTimeout(() => {
-      setToasts((prev) => prev.filter(t => t.id !== id));
+      setToasts((prev) =>
+        prev.filter(t => t.id !== id)
+      );
     }, 3000);
   };
 
@@ -43,13 +47,17 @@ export default function LoginPage() {
   };
 
   return (
+
     <div className="page login-page">
+
       <div className="top">
         <img src="/logoSAEE.png" alt="Logo" className="logo" />
         <div className="header">
           <span className="back" onClick={() => navigate("/")}><i className="bi bi-arrow-left"></i></span>
           <h2>Fazer Login</h2>
+
         </div>
+
       </div>
 
       <div className="bottom">
@@ -69,16 +77,22 @@ export default function LoginPage() {
             Não tem conta? Criar agora
           </span>
         </form>
+
       </div>
 
       <div className="toast-container">
+
         {toasts.map((t) => (
           <div key={t.id} className={`toast ${t.type}`}>
             <i className={`bi ${t.type === "success" ? "bi-check-circle" : "bi-exclamation-circle"}`}></i>
             <span>{t.msg}</span>
+
           </div>
+
         ))}
+
       </div>
+
     </div>
   );
 }
