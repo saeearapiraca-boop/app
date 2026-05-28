@@ -1,136 +1,85 @@
 import "./RegisterPage.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import UserService from "../src/services/userService";
+import { validateRegisterForm } from "../src/services/validationUtils";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
-    nome: "",
-    data: "",
+    nome_completo: "",
+    data_nascimento: "",
     sexo: "",
     email: "",
     senha: "",
     termos: false
   });
-
   const [toasts, setToasts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const showToast = (msg, type = "error") => {
     const id = Date.now();
-
     setToasts((prev) => [...prev, { id, msg, type }]);
-
     setTimeout(() => {
       setToasts((prev) => prev.filter(t => t.id !== id));
     }, 3000);
   };
 
-  const validar = () => {
-    if (!form.nome.trim()) {
-      showToast("Nome é obrigatório");
-      return false;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (!form.data) {
-      showToast("Data de nascimento obrigatória");
-      return false;
-    }
-
-    if (!form.sexo) {
-      showToast("Selecione o sexo");
-      return false;
-    }
-        // Validação do e-mail
-    if (!form.email.trim()) {
-      showToast("E-mail obrigatório");
-      return false;
-    }
-
-    // Validação simples de formato de e-mail
-    if (!/\S+@\S+\.\S+/.test(form.email)) {
-      showToast("Digite um e-mail válido");
-      return false;
-    }
-
-    if (form.senha.length < 6) {
-      showToast("Senha mínimo 6 caracteres");
-      return false;
-    }
-
-    if (!/[A-Z]/.test(form.senha)) {
-      showToast("Senha precisa de letra maiúscula");
-      return false;
-    }
-
-    if (!/[0-9]/.test(form.senha)) {
-      showToast("Senha precisa de número");
-      return false;
+    const validation = validateRegisterForm(form);
+    if (!validation.valid) {
+      showToast(Object.values(validation.errors)[0], "error");
+      return;
     }
 
     if (!form.termos) {
-      showToast("Aceite os termos");
-      return false;
+      showToast("Aceite os termos", "error");
+      return;
     }
 
-    return true;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!validar()) return;
-
-    showToast("Conta criada com sucesso!", "success");
+    setIsLoading(true);
+    try {
+      await UserService.registerUser({
+        nome_completo: form.nome_completo.trim(),
+        email: form.email.toLowerCase().trim(),
+        senha: form.senha,
+        data_nascimento: form.data_nascimento,
+        sexo: form.sexo
+      });
+      
+      showToast("Conta criada!", "success");
+      setTimeout(() => navigate("/"), 1500);
+    } catch (error) {
+      showToast(error.message, "error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="page register-page">
       <div className="top">
         <img src="/logoSAEE.png" alt="Logo" className="logo" />
-
         <div className="header">
-          <span className="back" onClick={() => navigate("/")}>
-            <i className="bi bi-arrow-left"></i>
-          </span>
+          <span className="back" onClick={() => navigate("/")}><i className="bi bi-arrow-left"></i></span>
           <h2>Criar Conta</h2>
         </div>
       </div>
 
       <div className="bottom">
-        <p className="description">
-          Para criar sua conta preencha todas as informações abaixo.
-        </p>
-
+        <p className="description">Preencha todas as informações abaixo.</p>
         <form className="form" onSubmit={handleSubmit}>
-          
           <label>Nome Completo:</label>
-          <input
-            type="text"
-            value={form.nome}
-            onChange={(e) =>
-              setForm({ ...form, nome: e.target.value })
-            }
-          />
+          <input type="text" value={form.nome_completo} onChange={(e) => setForm({ ...form, nome_completo: e.target.value })} disabled={isLoading} required />
 
           <label>Data de Nascimento:</label>
-          <input
-            type="date"
-            value={form.data}
-            onChange={(e) =>
-              setForm({ ...form, data: e.target.value })
-            }
-          />
+          <input type="date" value={form.data_nascimento} onChange={(e) => setForm({ ...form, data_nascimento: e.target.value })} disabled={isLoading} required />
 
           <label>Sexo:</label>
-          <select
-            className="select-field"
-            value={form.sexo}
-            onChange={(e) =>
-              setForm({ ...form, sexo: e.target.value })
-            }
-          >
-            <option value="">Selecione uma opção</option>
+          <select className="select-field" value={form.sexo} onChange={(e) => setForm({ ...form, sexo: e.target.value })} disabled={isLoading} required>
+            <option value="">Selecione</option>
             <option value="masculino">Masculino</option>
             <option value="feminino">Feminino</option>
             <option value="outro">Outro</option>
@@ -138,38 +87,18 @@ export default function RegisterPage() {
           </select>
 
           <label>E-mail:</label>
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
-          />
+          <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} disabled={isLoading} required />
 
           <label>Senha:</label>
-          <input
-            type="password"
-            value={form.senha}
-            onChange={(e) =>
-              setForm({ ...form, senha: e.target.value })
-            }
-          />
+          <input type="password" value={form.senha} onChange={(e) => setForm({ ...form, senha: e.target.value })} disabled={isLoading} required />
 
           <div className="terms">
-            <input
-              type="checkbox"
-              checked={form.termos}
-              onChange={(e) =>
-                setForm({ ...form, termos: e.target.checked })
-              }
-            />
-            <span>
-              Aceitar os termos e as políticas de condições de uso
-            </span>
+            <input type="checkbox" checked={form.termos} onChange={(e) => setForm({ ...form, termos: e.target.checked })} disabled={isLoading} required />
+            <span>Aceitar os termos e políticas de uso</span>
           </div>
 
-          <button className="btn primary">
-            Finalizar Conta
+          <button className="btn primary" disabled={isLoading} type="submit">
+            {isLoading ? "Criando..." : "Finalizar Conta"}
           </button>
         </form>
       </div>
