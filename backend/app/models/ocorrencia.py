@@ -4,6 +4,11 @@ from sqlalchemy.orm import relationship
 from app.db.database import Base
 import enum
 
+class StatusOcorrencia(str, enum.Enum):
+    aberto = "Aberto"
+    em_analise = "Em análise"
+    resolvido = "Resolvido"
+
 class TipoOcorrencia(str, enum.Enum):
     esgoto = "esgoto"
     agua = "agua"
@@ -17,6 +22,7 @@ class Ocorrencia(Base):
     descricao = Column(String(500), nullable=False)
     localizacao = Column(String(255), nullable=False)
     tipo = Column(Enum(TipoOcorrencia), nullable=False)
+    status = Column(Enum(StatusOcorrencia), nullable=False, default=StatusOcorrencia.aberto)
     midia_url = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

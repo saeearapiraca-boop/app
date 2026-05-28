@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Optional
-from app.models.ocorrencia import TipoOcorrencia
+from app.models.ocorrencia import TipoOcorrencia, StatusOcorrencia
 
 
 class OcorrenciaBase(BaseModel):
@@ -13,8 +13,12 @@ class OcorrenciaBase(BaseModel):
 class OcorrenciaCreate(OcorrenciaBase):
     pass
 
+class OcorrenciaUpdateStatus(BaseModel):
+    status: StatusOcorrencia
+
 class OcorrenciaRead(OcorrenciaBase):
     id: UUID
+    status: StatusOcorrencia
     midia_url: Optional[str] = None
     created_at: datetime
     updated_at: datetime

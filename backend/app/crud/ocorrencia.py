@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.models.ocorrencia import Ocorrencia, TipoOcorrencia
+from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia
 from app.schemas.ocorrencia import OcorrenciaCreate
 
 def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
@@ -12,4 +12,17 @@ def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: s
     db.add(ocorrencia)
     db.commit()
     db.refresh(ocorrencia)
+    return ocorrencia
+
+def get_ocorrencia(db: Session, ocorrencia_id: str):
+    return db.query(Ocorrencia).filter(Ocorrencia.id == ocorrencia_id).first()
+
+def update_ocorrencia_status(db: Session, ocorrencia_id: str, novo_status: StatusOcorrencia):
+    ocorrencia = get_ocorrencia(db, ocorrencia_id)
+
+    if ocorrencia:
+        ocorrencia.status = novo_status
+        db.commit()
+        db.refresh(ocorrencia)
+    
     return ocorrencia

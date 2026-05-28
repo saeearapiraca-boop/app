@@ -5,7 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, s
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead
+from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus
+from app.crud.ocorrencia import get_ocorrencia, update_ocorrencia_status
 from app.services.ocorrencia import registrar_ocorrencia
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
@@ -58,3 +59,28 @@ async def criar_ocorrencia(
 
     ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
     return registrar_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url)
+
+
+@router.patch(
+    "/{ocorrencia_id}/status",
+    response_model=OcorrenciaRead,
+    status_code=status.HTTP_200_OK,
+    summary="Atualizar o status de uma ocorrência",
+    description="Altera o status de uma denúncia. Valores aceitos: Aberto, Em análise, Resolvido."
+)
+def atualizar_status_ocorrencia(
+    ocorrencia_id: str,
+    status_update: OcorrenciaUpdateStatus, 
+    db: Session = Depends(get_db)
+):
+    ocorrencia_existente = get_ocorrencia(db, ocorrencia_id=ocorrencia_id)
+    if not ocorrencia_existente:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ocorrência não encontrada.")
+    
+    ocorrencia_atualizada = update_ocorrencia_status(
+        db=db, 
+        ocorrencia_id=ocorrencia_id, 
+        novo_status=status_update.status
+    )
+    
+    return ocorrencia_atualizada
