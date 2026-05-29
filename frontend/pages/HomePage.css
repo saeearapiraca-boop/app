@@ -1,33 +1,15 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-  background: #f4f4f4;
-}
-
-.home-container {
-  width: 100%;
-  min-height: 100vh;
-
-  background: #ffffff;
-
-  padding: 16px;
-
-  max-width: 1400px;
-  margin: auto;
+.home-page {
+  min-height: 100dvh;
+  background: #f5f3f3;
+  padding: 20px;
 }
 
 /* Header */
 
-.header {
+.home-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  align-items: center;
 }
 
 .menu-btn {
@@ -39,24 +21,11 @@ body {
 }
 
 .logo {
-  width: 60px;
-  height: 30px;
-  background: #9ca3af;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 6px;
-
-  color: white;
-  font-size: 12px;
+  width: 90px;
 }
 
-.perfil img {
+.user-avatar {
   width: 40px;
-  height: 40px;
-  border-radius: 50%;
 }
 
 /* Busca */
@@ -64,14 +33,10 @@ body {
 .search-box {
   display: flex;
   align-items: center;
-
-  background: #f0f0f0;
-
+  background: #d9d9d9;
   border-radius: 20px;
-
   padding: 6px 10px;
-
-  margin-bottom: 18px;
+  margin: 20px 0px;
 }
 
 .search-box input {
@@ -97,13 +62,19 @@ body {
 
 /* Mapa */
 
+.map {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+}
+
 .map-section {
   margin-bottom: 24px;
 }
 
 .map-placeholder {
   width: 100%;
-  height: 150px;
+  height: 100px;
 
   background: #d1d5db;
 
@@ -128,43 +99,55 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-bottom: 14px;
 }
 
 .section-header h3 {
-  font-size: 16px;
-  color: #111827;
+  font-size: 20px;
+  font-weight: 500;
+  color: #7c7c7c;
 }
 
 .section-header span {
   font-size: 12px;
-  color: #6b7280;
+  color: #7c7c7c;
   cursor: pointer;
 }
 
 /* Card Problema */
 
 .problem-card {
-  background: #f3f4f6;
+  background: #e4e3e3;
   border-radius: 18px;
   overflow: hidden;
 }
 
-.problem-image {
-  width: 100%;
+.problem-image { /* arrumar */
   height: 120px;
-  background: #bdbdbd;
+  background-image: url("/bairro-primavera.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .problem-content {
   padding: 14px;
 }
 
-.problem-top {
+.problem-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+}
+
+.problem-header h3 {
+  font-size: 22px;
+  color: #515151;
+}
+
+.problem-header span {
+  font-size: 12px;
+  color: #515151;
 }
 
 .problem-top h4 {
@@ -172,28 +155,18 @@ body {
   font-size: 18px;
 }
 
-.bairro {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.status {
-  font-size: 12px;
-  color: #6b7280;
-}
-
 .descricao {
   font-size: 13px;
   color: #374151;
-
   margin-bottom: 14px;
-
   line-height: 1.4;
+  text-align: justify;
 }
 
 .problem-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -203,84 +176,75 @@ body {
   color: #6b7280;
 }
 
-.explorar-btn {
-  margin-left: auto;
-
+.problem-footer button {
+  font-size: 12px;
   border: none;
-
   background: #16a34a;
   color: white;
 
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.explorar-btn {
+  margin-left: auto;
+  border: none;
+  background: #16a34a;
+  color: white;
   padding: 7px 16px;
-
   border-radius: 20px;
-
   cursor: pointer;
 }
 
-/* Cards menores */
+/* Card Educativo */
 
-.cards-grid {
+.education-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 15px;
 }
 
-.mini-card {
-  background: #f3f4f6;
-  border-radius: 16px;
-  padding: 10px;
+.education-card {
+  background: #d9d9d9;
+  border-radius: 20px;
+  overflow: hidden;
+
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
 }
 
-.mini-image {
-  width: 100%;
-  height: 80px;
-
-  background: #bdbdbd;
-
-  border-radius: 12px;
-
-  margin-bottom: 10px;
+/* imagem */
+.education-image {
+  height: 70px;
+  background-image: url("/bairro-primavera.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.mini-card h4 {
+/* conteúdo */
+.education-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.education-content h3 {
   font-size: 14px;
-  margin-bottom: 6px;
+  text-align: left;
+  color: #222;
 }
 
-.mini-card p {
-  font-size: 12px;
-  color: #4b5563;
-
-  margin-bottom: 10px;
+.education-content p {
+  font-size: 13px;
+  color: #777;
 }
 
-.mini-card span {
-  font-size: 12px;
-  color: #16a34a;
-  font-weight: bold;
-
+/* ler mais */
+.education-content span {
+  font-size: 14px;
+  color: #00b41e;
   cursor: pointer;
-}
-
-/* Footer */
-
-.bottom-nav {
-  width: 100%;
-  height: 55px;
-
-  background: #e5e7eb;
-
-  border-radius: 22px;
-
-  margin-top: 20px;
-}
-.map {
-  width: 100%;
-  height: 350px;
-  border-radius: 20px;
-}
-
-.leaflet-container {
-  border-radius: 20px;
 }

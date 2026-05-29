@@ -1,5 +1,4 @@
 import "./HomePage.css";
-
 import { useState } from "react";
 
 import {
@@ -34,10 +33,10 @@ export default function HomePage() {
 
   return (
 
-    <div className="home-container">
+    <div className="home-page">
 
       {/* HEADER */}
-      <header className="header">
+      <header className="home-header">
 
         <button
           className="menu-btn"
@@ -46,16 +45,13 @@ export default function HomePage() {
           ☰
         </button>
 
-        <h2>
-          Arapiraca
-        </h2>
+        <img src="/logoSAEE.png" alt="Logo" className="logo" />
 
-        <div
-          className="perfil"
-          onClick={() => alert("Abrir perfil")}
-        >
-          👤
-        </div>
+        <img
+          src="/user.png"
+          alt="Usuário"
+          className="user-avatar"
+        />
 
       </header>
 
@@ -125,72 +121,71 @@ export default function HomePage() {
           </h3>
 
           <span>
-            Ver todos
+            ver todos
           </span>
 
         </div>
 
-        {problemas.map((problema) => (
+        <div className="problem-card">
 
-          <div
-            key={problema.id}
-            className="problem-card"
-          >
-
-            <div className="problem-content">
-
-              <div className="problem-top">
-
-                <div>
-
-                  <h4>
-                    {problema.titulo}
-                  </h4>
-
-                  <p className="bairro">
-                    {problema.bairro}
-                  </p>
-
-                </div>
-
-                <span className="status">
-                  aberto
-                </span>
-
-              </div>
-
-              <p className="descricao">
-                {problema.descricao}
-              </p>
-
-              <div className="problem-footer">
-
-                <span>
-                  👍 {problema.likes}
-                </span>
-
-                <span>
-                  💬 {problema.comentarios}
-                </span>
-
-                <button
-                  className="explorar-btn"
-                  onClick={() =>
-                    alert(
-                      `Abrindo ${problema.titulo}`
-                    )
-                  }
-                >
-                  Explorar
-                </button>
-
-              </div>
-
-            </div>
+          <div className="problem-image">
 
           </div>
 
-        ))}
+          <div className="problem-content">
+            <div className="problem-header">
+              <h3>Bairro Primavera</h3>
+              <span>Não resolvido</span>
+            </div>
+
+            <p className="descricao">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi magni expedita consequatur sint ab praesentium temporibus, enim aliquam voluptatem iure, vel saepe vero inventore atque itaque voluptate modi repellendus doloribus.
+            </p>
+
+            <div className="problem-footer">
+              <div className="stats">
+                <span>👥 178 fotos</span>
+                <span>💬 35 relatos</span>
+              </div>
+
+              <button>Explorar</button>
+            </div>
+          </div>
+          </div>
+
+      </section>
+
+      {/* EDUCATIVO */}
+      <section className="section">
+
+        <div className="section-header">
+          <h3>Conteúdo educativo</h3>
+          <span>ver mais</span>
+        </div>
+
+        <div className="education-grid">
+
+          <div className="education-card">
+            <div className="education-image"></div>
+
+            <div className="education-content">
+              <h3>Descarte de Lixo</h3>
+              <p>Descrição</p>
+              <span>Ler mais</span>
+            </div>
+          </div>
+
+          <div className="education-card">
+            <div className="education-image"></div>
+
+            <div className="education-content">
+              <h3>Água Parada</h3>
+              <p>Descrição</p>
+              <span>Ler mais</span>
+            </div>
+          </div>
+
+        </div>
 
       </section>
 
