@@ -1,5 +1,6 @@
 import "./HomePage.css";
 import { useState } from "react";
+import BottomNav from "../src/components/BottomNav";
 
 import {
   MapContainer,
@@ -34,6 +35,8 @@ export default function HomePage() {
   return (
 
     <div className="home-page">
+
+      <BottomNav />
 
       {/* HEADER */}
       <header className="home-header">
@@ -188,7 +191,6 @@ export default function HomePage() {
         </div>
 
       </section>
-
     </div>
 
   );
