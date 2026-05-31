@@ -122,7 +122,7 @@
   overflow: hidden;
 }
 
-.problem-image { /* arrumar */
+.problem-image { 
   height: 120px;
   background-image: url("/bairro-primavera.webp");
   background-size: cover;
@@ -215,12 +215,20 @@
   flex-direction: column;
 }
 
-/* imagem */
+/* imagens */
 .education-image {
   height: 70px;
-  background-image: url("/bairro-primavera.webp");
+  background-image: url("/descarteLixo.jpg");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+}
+
+.education-image2 {
+  height: 70px;
+  background-image: url("/aguaParada.jpg");
+  background-size: cover;
+  background-position: top;
   background-repeat: no-repeat;
 }
 

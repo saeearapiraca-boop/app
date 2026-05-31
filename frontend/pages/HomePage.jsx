@@ -67,7 +67,7 @@ export default function HomePage() {
         />
 
         <button>
-          🔍
+          <i className="bi bi-search"></i>
         </button>
 
       </div>
@@ -147,8 +147,10 @@ export default function HomePage() {
 
             <div className="problem-footer">
               <div className="stats">
-                <span>👥 178 fotos</span>
-                <span>💬 35 relatos</span>
+                <i className="bi bi-camera-fill"></i>
+                <span>178 fotos</span>
+                <i className="bi bi-chat-left-dots-fill"></i>
+                <span>35 relatos</span>
               </div>
 
               <button>Explorar</button>
@@ -179,7 +181,7 @@ export default function HomePage() {
           </div>
 
           <div className="education-card">
-            <div className="education-image"></div>
+            <div className="education-image2"></div>
 
             <div className="education-content">
               <h3>Água Parada</h3>
