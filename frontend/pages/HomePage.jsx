@@ -14,7 +14,7 @@ export default function HomePage() {
   const [problemas] = useState([
     {
       id: 1,
-      titulo: "Lixo",
+      titulo: "Rua São Francisco - Centro",
       descricao: "Muito lixo acumulado",
       bairro: "Centro",
       likes: 23,
@@ -23,7 +23,7 @@ export default function HomePage() {
     },
     {
       id: 2,
-      titulo: "Buraco",
+      titulo: "Rua Duque de Caxias - Brasília",
       descricao: "Buraco enorme na rua",
       bairro: "Brasília",
       likes: 10,
@@ -142,7 +142,7 @@ export default function HomePage() {
             </div>
 
             <p className="descricao">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi magni expedita consequatur sint ab praesentium temporibus, enim aliquam voluptatem iure, vel saepe vero inventore atque itaque voluptate modi repellendus doloribus.
+              O Bairro Primavera enfrenta graves problemas de infraestrutura e saúde pública. Moradores relatam constante falta de água e vias tomadas por buracos. Além disso, o descarte irregular de lixo e focos de água parada em terrenos baldios têm gerado grande preocupação com a proliferação de mosquitos da dengue.
             </p>
 
             <div className="problem-footer">
@@ -175,7 +175,7 @@ export default function HomePage() {
 
             <div className="education-content">
               <h3>Descarte de Lixo</h3>
-              <p>Descrição</p>
+              <p>Aprenda a separar o lixo corretamente e descubra os dias da coleta seletiva no seu bairro.</p>
               <span>Ler mais</span>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function HomePage() {
 
             <div className="education-content">
               <h3>Água Parada</h3>
-              <p>Descrição</p>
+              <p>Saiba como vistoriar seu quintal e evitar o acúmulo de água em vasos e garrafas.</p>
               <span>Ler mais</span>
             </div>
           </div>
