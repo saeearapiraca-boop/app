@@ -56,6 +56,7 @@
     0 8px 30px rgba(0,0,0,.12);
 }
 
+
 .nav-item {
   border: none;
   background: transparent;
@@ -64,29 +65,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color:black;
-
-  gap: 8px;
+  color: black;
 
   cursor: pointer;
-
   font-size: 22px;
+
+  flex: 1; 
+  height: 100%;
 }
 
 .nav-item.active {
-  background: #3461A4;
-
   color: white;
-
-  padding: 12px 20px;
-
-  border-radius: 18px;
-
-  font-size: 16px;
-
+  font-size: 20px; 
+  
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  
+  position: relative;
+}
+
+.nav-item.active::before {
+  content: "";
+  position: absolute;
+  z-index: -1; 
+  background: #3461A4;
+  
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
 }
 
 .nav-item.active i {

@@ -11,7 +11,7 @@ export default function BottomNav() {
           isActive ? "nav-item active" : "nav-item"
         }
       >
-        <i className="bi bi-house-fill"></i>
+        <i className="bi bi-house"></i>
         
       </NavLink>
 
