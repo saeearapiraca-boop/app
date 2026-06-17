@@ -1,6 +1,6 @@
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Optional
 from app.models.ocorrencia import TipoOcorrencia, StatusOcorrencia
 
@@ -10,6 +10,16 @@ class OcorrenciaBase(BaseModel):
     localizacao: str = Field(..., min_length=3, max_length=255)
     tipo: TipoOcorrencia
 
+    @field_validator("descricao", "localizacao", mode="before")
+    @classmethod
+    def limpar_espacos(cls, value:str) -> str:
+        if isinstance(value, str):
+            valor_limpo = value.strip()
+            if not valor_limpo:
+                raise ValueError("Este campo não pode estar vazio ou conter apenas espaços.")
+            return valor_limpo
+        return value
+    
 class OcorrenciaCreate(OcorrenciaBase):
     pass
 

@@ -1,8 +1,10 @@
 import uuid
+import json
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, status
 from sqlalchemy.orm import Session
+from pydantic import ValidationError
 
 from app.api.deps import get_db
 from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus
@@ -32,14 +34,24 @@ async def criar_ocorrencia(
     midia: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
-    # Validar tipo MIME
+    # 1. Validar os dados de texto PRIMEIRO usando o nosso Schema blindado
+    try:
+        ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
+    except ValidationError as e:
+        # Se falhar, devolvemos os detalhes do erro do Pydantic direto pro frontend
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=json.loads(e.json())
+        )
+
+    # 2. Validar tipo MIME (Formato do arquivo)
     if midia.content_type not in ALLOWED_MIME_TYPES:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Tipo de arquivo não permitido: {midia.content_type}. Use JPEG, PNG, WEBP ou MP4.",
         )
 
-    # Ler conteúdo e validar tamanho
+    # 3. Ler conteúdo e validar tamanho da mídia
     content = await midia.read()
     if len(content) > MAX_FILE_SIZE_MB * 1024 * 1024:
         raise HTTPException(
@@ -47,7 +59,7 @@ async def criar_ocorrencia(
             detail=f"Arquivo muito grande. Limite: {MAX_FILE_SIZE_MB}MB.",
         )
 
-    # Nome seguro: uuid + extensão original (evita path traversal)
+    # 4. Salvar arquivo apenas após TODAS as validações passarem
     suffix = Path(midia.filename).suffix.lower()
     safe_filename = f"{uuid.uuid4()}{suffix}"
     file_path = UPLOAD_DIR / safe_filename
@@ -57,7 +69,7 @@ async def criar_ocorrencia(
 
     midia_url = f"/static/uploads/{safe_filename}"
 
-    ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
+    # O objeto ocorrencia_in já foi criado e validado lá em cima no try!
     return registrar_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url)
 
 
