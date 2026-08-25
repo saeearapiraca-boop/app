@@ -1,0 +1,119 @@
+.edit-profile-page {
+  min-height: 100dvh;
+  background: url("https://www.transparenttextures.com/patterns/topography.png");
+}
+
+.edit-top {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 30px 20px 40px;
+}
+
+.edit-top h2 {
+  color: #222;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.back {
+  position: absolute;
+  left: 20px;
+  top: 30px;
+
+  font-size: 32px;
+  cursor: pointer;
+}
+
+
+
+
+
+.profile-avatar-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.edit-bottom {
+  background: rgba(90, 90, 90, 0.88);
+
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+
+  padding: 35px 30px;
+
+  min-height: 70vh;
+
+  backdrop-filter: blur(8px);
+}
+
+.edit-bottom h3 {
+  color: white;
+  margin-bottom: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form label {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form input,
+.form select {
+  background: transparent;
+
+  border: none;
+  border-bottom: 2px solid rgba(255,255,255,.4);
+
+  padding: 8px 0;
+
+  color: white;
+  font-size: 16px;
+
+  outline: none;
+}
+
+.form option {
+  color: black;
+}
+
+.section-title {
+  margin-top: 25px;
+}
+
+.save-btn {
+  margin-top: 25px;
+
+  border: none;
+  border-radius: 12px;
+
+  padding: 14px;
+
+  background: linear-gradient(
+    90deg,
+    #1fa2ff,
+    #12d8fa
+  );
+
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+}

@@ -34,7 +34,7 @@ export default function BottomNav() {
       </NavLink>
 
       <NavLink
-        to="/perfil"
+        to="/aprender"
         className={({ isActive }) =>
           isActive ? "nav-item active" : "nav-item"
         }
