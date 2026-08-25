@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia
-from app.schemas.ocorrencia import OcorrenciaCreate
+from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia, Comentario
+from app.schemas.ocorrencia import OcorrenciaCreate, ComentarioCreate
 from typing import Optional, List
 
 def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
@@ -36,3 +36,24 @@ def get_all_ocorrencias(db: Session, localizacao: Optional[str] = None) -> List[
         query = query.filter(Ocorrencia.localizacao.ilike(f"%{localizacao}%"))
     
     return query.all()
+
+def curtir_ocorrencia(db: Session, ocorrencia_id: str):
+    ocorrencia = get_ocorrencia(db, ocorrencia_id)
+    if ocorrencia:
+        ocorrencia.curtidas += 1
+        db.commit()
+        db.refresh(ocorrencia)
+    return ocorrencia
+
+def create_comentario(db: Session, ocorrencia_id: str, comentario_in: ComentarioCreate) -> Comentario:
+    comentario = Comentario(
+        ocorrencia_id=ocorrencia_id,
+        texto=comentario_in.texto,
+    )
+    db.add(comentario)
+    db.commit()
+    db.refresh(comentario)
+    return comentario
+
+def get_comentarios_by_ocorrencia(db: Session, ocorrencia_id: str) -> List[Comentario]:
+    return db.query(Comentario).filter(Comentario.ocorrencia_id == ocorrencia_id).all()

@@ -5,11 +5,11 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, s
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus
-from app.crud.ocorrencia import get_ocorrencia, update_ocorrencia_status
+from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus, ComentarioCreate, ComentarioRead
+from app.crud.ocorrencia import get_ocorrencia, update_ocorrencia_status, create_comentario, get_comentarios_by_ocorrencia
 from app.services.ocorrencia import registrar_ocorrencia
 from typing import List, Optional
-from app.crud.ocorrencia import get_all_ocorrencias
+from app.crud.ocorrencia import get_all_ocorrencias, curtir_ocorrencia
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
 
@@ -99,3 +99,62 @@ def listar_ocorrencias(
     db: Session = Depends(get_db),
 ) -> List[OcorrenciaRead]:
     return get_all_ocorrencias(db=db, localizacao=localizacao)
+
+@router.post(
+    "/{ocorrencia_id}/curtir",
+    response_model=OcorrenciaRead,
+    status_code=status.HTTP_200_OK,
+    summary="Curtir uma ocorrência",
+    description="Incrementa o contador de curtidas de uma denúncia específica.",
+)
+def curtir_denuncia(
+    ocorrencia_id: str,
+    db: Session = Depends(get_db),
+):
+    ocorrencia = curtir_ocorrencia(db=db, ocorrencia_id=ocorrencia_id)
+    if not ocorrencia:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Ocorrência não encontrada.",
+        )
+    return ocorrencia
+
+@router.post(
+    "/{ocorrencia_id}/comentarios",
+    response_model=ComentarioRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Adicionar comentário a uma ocorrência",
+    description="Cria um novo comentário vinculado a uma denúncia específica.",
+)
+def adicionar_comentario(
+    ocorrencia_id: str,
+    comentario_in: ComentarioCreate,
+    db: Session = Depends(get_db),
+):
+    ocorrencia = get_ocorrencia(db, ocorrencia_id=ocorrencia_id)
+    if not ocorrencia:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Ocorrência não encontrada.",
+        )
+    return create_comentario(db=db, ocorrencia_id=ocorrencia_id, comentario_in=comentario_in)
+
+
+@router.get(
+    "/{ocorrencia_id}/comentarios",
+    response_model=List[ComentarioRead],
+    status_code=status.HTTP_200_OK,
+    summary="Listar comentários de uma ocorrência",
+    description="Retorna a lista de todos os comentários feitos em uma denúncia.",
+)
+def listar_comentarios(
+    ocorrencia_id: str,
+    db: Session = Depends(get_db),
+):
+    ocorrencia = get_ocorrencia(db, ocorrencia_id=ocorrencia_id)
+    if not ocorrencia:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Ocorrência não encontrada.",
+        )
+    return get_comentarios_by_ocorrencia(db=db, ocorrencia_id=ocorrencia_id)
