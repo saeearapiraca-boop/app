@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia
 from app.schemas.ocorrencia import OcorrenciaCreate
+from typing import Optional, List
 
 def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
     ocorrencia = Ocorrencia(
@@ -26,3 +27,12 @@ def update_ocorrencia_status(db: Session, ocorrencia_id: str, novo_status: Statu
         db.refresh(ocorrencia)
     
     return ocorrencia
+
+def get_all_ocorrencias(db: Session, localizacao: Optional[str] = None) -> List[Ocorrencia]:
+    query = db.query(Ocorrencia)
+
+    #se o front passar uma localizaçao ou bairro, filtramos por aproximaçao, case insensitive
+    if localizacao:
+        query = query.filter(Ocorrencia.localizacao.ilike(f"%{localizacao}%"))
+    
+    return query.all()

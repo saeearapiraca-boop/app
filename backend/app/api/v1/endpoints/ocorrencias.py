@@ -8,6 +8,8 @@ from app.api.deps import get_db
 from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus
 from app.crud.ocorrencia import get_ocorrencia, update_ocorrencia_status
 from app.services.ocorrencia import registrar_ocorrencia
+from typing import List, Optional
+from app.crud.ocorrencia import get_all_ocorrencias
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
 
@@ -84,3 +86,16 @@ def atualizar_status_ocorrencia(
     )
     
     return ocorrencia_atualizada
+
+@router.get(
+    "/",
+    response_model=List[OcorrenciaRead],
+    status_code=status.HTTP_200_OK,
+    summary="Listar todas as ocorrências",
+    description="Retorna uma lista de todas as denúncias cadastradas, com opção de filtro por localização/bairro.",
+)
+def listar_ocorrencias(
+    localizacao: Optional[str] = None,
+    db: Session = Depends(get_db),
+) -> List[OcorrenciaRead]:
+    return get_all_ocorrencias(db=db, localizacao=localizacao)
