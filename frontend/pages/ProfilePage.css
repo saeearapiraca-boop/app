@@ -1,0 +1,162 @@
+.profile-page {
+  min-height: 100dvh;
+  background: #f5f3f3;
+  padding: 20px;
+  padding-bottom: 120px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+}
+
+.back {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.profile-avatar-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.edit-avatar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 30px;
+  height: 30px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #12b61d;
+  color: white;
+
+  cursor: pointer;
+}
+
+.profile-header h1 {
+  margin-top: 15px;
+  font-size: 30px;
+  color: #222;
+}
+
+.profile-card {
+  margin-top: 25px;
+
+  background: #d9d9d9;
+  border-radius: 25px;
+
+  padding: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat i {
+  color: #11b61d;
+  font-size: 30px;
+}
+
+.stat h3 {
+  margin: 5px 0;
+}
+
+.stat p {
+  font-size: 12px;
+  line-height: 1.2;
+
+  color: #666;
+
+  max-width: 70px;
+  text-align: center;
+  justify-content: center;
+}
+
+.bio {
+  margin-top: 20px;
+  color: #333;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+.tags span {
+  background: #486773;
+  color: white;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  font-size: 12px;
+}
+
+.gallery-section {
+  margin-top: 30px;
+}
+
+.gallery-section h2 {
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.gallery-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.gallery-card {
+  min-width: 130px;
+  height: 120px;
+
+  background: #d9d9d9;
+  border-radius: 12px;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.media-card {
+  height: 140px;
+
+  background: #d9d9d9;
+  border-radius: 12px;
+}
