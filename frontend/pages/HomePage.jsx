@@ -1,5 +1,6 @@
 import "./HomePage.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BottomNav from "../src/components/BottomNav";
 
 import {
@@ -10,6 +11,8 @@ import {
 } from "react-leaflet";
 
 export default function HomePage() {
+
+  const navigate = useNavigate();
 
   const [problemas] = useState([
     {
@@ -165,7 +168,7 @@ export default function HomePage() {
 
         <div className="section-header">
           <h3>Conteúdo educativo</h3>
-          <span>ver mais</span>
+          <span onClick={() => navigate('/aprender')}>ver mais</span>
         </div>
 
         <div className="education-grid">

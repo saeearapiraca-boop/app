@@ -1,0 +1,90 @@
+.education-page {
+  min-height: 100dvh;
+  background: #f5f3f3;
+  padding: 20px;
+}
+
+/* Header da página educativa */
+.education-header {
+  display: flex;
+
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+.back {
+  border: none;
+  background: none;
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.education-header h2 {
+  font-size: 22px;
+  color: #515151;
+  margin: 0;
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding-bottom: 100px;
+}
+
+.education-card {
+  background: #d9d9d9;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.education-image-dynamic {
+  height: 70px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.education-content {
+  padding: 20px 15px; 
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1; /* Faz o conteúdo empurrar o "Ler mais" para baixo se o texto for curto */
+}
+
+.education-content h3 {
+  font-size: 14px;
+  text-align: left;
+  color: #222;
+  margin: 0; 
+  font-weight: 700; 
+}
+
+.education-content p {
+  font-size: 13px;
+  color: #777;
+  margin: 0; 
+  line-height: 1.4; 
+}
+
+.education-content span {
+  font-size: 14px;
+  color: #12a639; 
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: auto; /* Joga o botão pro final do card */
+}

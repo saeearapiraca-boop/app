@@ -6,6 +6,8 @@ import ReportPage from "../pages/ReportPage";
 import HomePage from "../pages/HomePage";
 import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
+import EducationPage from "../pages/EducationPage";
+import ArticlePage from "../pages/ArticlePage";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/home" element={<HomePage />}/>
         <Route path="/perfil" element={<ProfilePage />}/>
         <Route path="/editar-perfil" element={<EditProfilePage />}/>
+        <Route path="/aprender" element={<EducationPage />}/>
+        <Route path="/educativo/:id" element={<ArticlePage />} />
       </Routes>
     </BrowserRouter>
   );
