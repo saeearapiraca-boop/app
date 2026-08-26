@@ -11,7 +11,7 @@ export default function ArticlePage() {
       id: "1", // Importante: o useParams sempre retorna o id como texto (string)
       titulo: "Descarte de Lixo: Como separar corretamente",
       imagem: "/descarteLixo.jpg",
-      data: "25 de Agosto, 2026",
+      data: "21 de Agosto, 2026",
       tempoLeitura: "3 min de leitura",
       conteudo: (
         <>
