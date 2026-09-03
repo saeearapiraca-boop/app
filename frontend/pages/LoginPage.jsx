@@ -38,7 +38,7 @@ export default function LoginPage() {
     try {
       await UserService.loginUser(form.email.toLowerCase().trim(), form.senha);
       showToast("Login realizado!", "success");
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/home"), 1500);
     } catch (error) {
       showToast(error.message, "error");
     } finally {
