@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
     """Gerencia o ciclo de vida da aplicação."""
     startup()
     yield
-    logger.info("Encerrando SAAE Arapiraca API...")
+    logger.info("Encerrando SAEE Arapiraca API...")
 
 
 app = FastAPI(
@@ -58,5 +58,5 @@ app.include_router(api_router)
 
 @app.get("/")
 def read_root():
-    return {"status": "SAAE Arapiraca API está online!"}
+    return {"status": "SAEE Arapiraca API está online!"}
 
