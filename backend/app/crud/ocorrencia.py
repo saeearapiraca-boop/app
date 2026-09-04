@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func # Importação necessária para as agregações (COUNT, etc)
 from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia, Comentario
 from app.schemas.ocorrencia import OcorrenciaCreate, ComentarioCreate
 from typing import Optional, List
@@ -57,3 +58,28 @@ def create_comentario(db: Session, ocorrencia_id: str, comentario_in: Comentario
 
 def get_comentarios_by_ocorrencia(db: Session, ocorrencia_id: str) -> List[Comentario]:
     return db.query(Comentario).filter(Comentario.ocorrencia_id == ocorrencia_id).all()
+
+# --- Consultas do Dashboard Administrativo ---
+
+def get_totais_ocorrencias(db: Session):
+    # Calcula o total geral de ocorrências
+    total = db.query(func.count(Ocorrencia.id)).scalar() or 0
+    
+    # É necessário ajustar as strings "ABERTO" e "RESOLVIDO" caso o Enum StatusOcorrencia utilize valores diferentes
+    em_aberto = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == "ABERTO").scalar() or 0
+    resolvidas = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == "RESOLVIDO").scalar() or 0
+    
+    return {
+        "totalOcorrencias": total,
+        "emAberto": em_aberto,
+        "resolvidas": resolvidas
+    }
+
+def get_ocorrencias_por_status(db: Session):
+    # Retorna uma lista de tuplas: [(status1, contagem1), (status2, contagem2)]
+    return db.query(Ocorrencia.status, func.count(Ocorrencia.id)).group_by(Ocorrencia.status).all()
+
+def get_ocorrencias_por_bairro(db: Session):
+    # Como o schema possui o campo "localizacao", estamos agrupando por ele.
+    # Retorna uma lista de tuplas: [(localizacao1, contagem1), (localizacao2, contagem2)]
+    return db.query(Ocorrencia.localizacao, func.count(Ocorrencia.id)).group_by(Ocorrencia.localizacao).all()

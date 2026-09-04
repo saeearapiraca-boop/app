@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
+from typing import Optional, List
 from app.models.ocorrencia import TipoOcorrencia, StatusOcorrencia
 
 
@@ -37,3 +37,32 @@ class ComentarioRead(BaseModel):
 
     class Config:
         from_attributes = True
+
+# --- Schemas do Dashboard Administrativo ---
+
+class DashboardResumo(BaseModel):
+    totalOcorrencias: int
+    emAberto: int
+    resolvidas: int
+
+class DashboardStatusDistribuicao(BaseModel):
+    status: str
+    quantidade: int
+
+class BairroMaisAfetado(BaseModel):
+    nome: str
+    quantidade: int
+
+class DashboardBairroDistribuicao(BaseModel):
+    bairro: str
+    quantidade: int
+
+class DashboardBairros(BaseModel):
+    # Definido como Optional para não quebrar a API caso o banco de dados esteja vazio
+    bairroMaisAfetado: Optional[BairroMaisAfetado] = None
+    distribuicao: List[DashboardBairroDistribuicao]
+
+class DashboardResponse(BaseModel):
+    resumo: DashboardResumo
+    distribuicaoPorStatus: List[DashboardStatusDistribuicao]
+    bairros: DashboardBairros

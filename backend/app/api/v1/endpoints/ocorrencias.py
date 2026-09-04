@@ -5,11 +5,24 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, s
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_db
-from app.schemas.ocorrencia import OcorrenciaCreate, OcorrenciaRead, OcorrenciaUpdateStatus, ComentarioCreate, ComentarioRead
-from app.crud.ocorrencia import get_ocorrencia, update_ocorrencia_status, create_comentario, get_comentarios_by_ocorrencia
-from app.services.ocorrencia import registrar_ocorrencia
+from app.schemas.ocorrencia import (
+    OcorrenciaCreate, 
+    OcorrenciaRead, 
+    OcorrenciaUpdateStatus, 
+    ComentarioCreate, 
+    ComentarioRead,
+    DashboardResponse
+)
+from app.crud.ocorrencia import (
+    get_ocorrencia, 
+    update_ocorrencia_status, 
+    create_comentario, 
+    get_comentarios_by_ocorrencia,
+    get_all_ocorrencias, 
+    curtir_ocorrencia
+)
+from app.services.ocorrencia import registrar_ocorrencia, get_dashboard_data
 from typing import List, Optional
-from app.crud.ocorrencia import get_all_ocorrencias, curtir_ocorrencia
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
 
@@ -34,14 +47,12 @@ async def criar_ocorrencia(
     midia: UploadFile = File(...),
     db: Session = Depends(get_db),
 ):
-    # Validar tipo MIME
     if midia.content_type not in ALLOWED_MIME_TYPES:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Tipo de arquivo não permitido: {midia.content_type}. Use JPEG, PNG, WEBP ou MP4.",
         )
 
-    # Ler conteúdo e validar tamanho
     content = await midia.read()
     if len(content) > MAX_FILE_SIZE_MB * 1024 * 1024:
         raise HTTPException(
@@ -49,7 +60,6 @@ async def criar_ocorrencia(
             detail=f"Arquivo muito grande. Limite: {MAX_FILE_SIZE_MB}MB.",
         )
 
-    # Nome seguro: uuid + extensão original (evita path traversal)
     suffix = Path(midia.filename).suffix.lower()
     safe_filename = f"{uuid.uuid4()}{suffix}"
     file_path = UPLOAD_DIR / safe_filename
@@ -61,6 +71,37 @@ async def criar_ocorrencia(
 
     ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
     return registrar_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url)
+
+
+@router.get(
+    "/",
+    response_model=List[OcorrenciaRead],
+    status_code=status.HTTP_200_OK,
+    summary="Listar todas as ocorrências",
+    description="Retorna uma lista de todas as denúncias cadastradas, com opção de filtro por localização/bairro.",
+)
+def listar_ocorrencias(
+    localizacao: Optional[str] = None,
+    db: Session = Depends(get_db),
+) -> List[OcorrenciaRead]:
+    return get_all_ocorrencias(db=db, localizacao=localizacao)
+
+
+@router.get(
+    "/dashboard",
+    response_model=DashboardResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Obter dados consolidados do dashboard",
+    description="Retorna indicadores agregados sobre ocorrências cadastradas para consumo do dashboard administrativo."
+)
+def read_dashboard_summary(db: Session = Depends(get_db)):
+    try:
+        return get_dashboard_data(db)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erro ao processar os indicadores do dashboard: {str(exc)}"
+        )
 
 
 @router.patch(
@@ -87,18 +128,6 @@ def atualizar_status_ocorrencia(
     
     return ocorrencia_atualizada
 
-@router.get(
-    "/",
-    response_model=List[OcorrenciaRead],
-    status_code=status.HTTP_200_OK,
-    summary="Listar todas as ocorrências",
-    description="Retorna uma lista de todas as denúncias cadastradas, com opção de filtro por localização/bairro.",
-)
-def listar_ocorrencias(
-    localizacao: Optional[str] = None,
-    db: Session = Depends(get_db),
-) -> List[OcorrenciaRead]:
-    return get_all_ocorrencias(db=db, localizacao=localizacao)
 
 @router.post(
     "/{ocorrencia_id}/curtir",
@@ -118,6 +147,7 @@ def curtir_denuncia(
             detail="Ocorrência não encontrada.",
         )
     return ocorrencia
+
 
 @router.post(
     "/{ocorrencia_id}/comentarios",
