@@ -1,0 +1,40 @@
+.full-map-page {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* O container do Leaflet precisa preencher todo o espaço disponível */
+.full-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Botão flutuante de voltar com z-index acima dos tiles do Leaflet (que usam z-index até ~400) */
+.map-back-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  color: #333333;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.map-back-btn:active {
+  transform: scale(0.92);
+  background: #f0f0f0;
+}

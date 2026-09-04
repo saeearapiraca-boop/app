@@ -16,7 +16,7 @@ export default function BottomNav() {
       </NavLink>
 
       <NavLink
-        to="/relatos"
+        to="/mapa"
         className={({ isActive }) =>
           isActive ? "nav-item active" : "nav-item"
         }

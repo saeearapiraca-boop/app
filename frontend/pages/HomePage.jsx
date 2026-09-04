@@ -78,6 +78,14 @@ export default function HomePage() {
       {/* MAPA */}
       <section className="map-section">
 
+        <button
+          className="btn-expand-map"
+          onClick={() => navigate("/mapa")}
+          title="Ver mapa em tela cheia"
+        >
+          <i className="bi bi-arrows-fullscreen"></i>
+        </button>
+
         <MapContainer
           center={[-9.7549, -36.6611]}
           zoom={13}

@@ -68,6 +68,42 @@
   border-radius: 20px;
 }
 
+/* Posicionamento relativo para o botão flutuar dentro da seção */
+.map-section {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Botão flutuante de expandir */
+.btn-expand-map {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000; /* Fica acima dos tiles e controles do Leaflet */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  color: #16a34a;
+  border: 1px solid #e5e7eb;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-expand-map:hover {
+  background: #f9fafb;
+}
+
+.btn-expand-map:active {
+  transform: scale(0.95);
+}
+
 .map-placeholder {
   width: 100%;
   height: 100px;

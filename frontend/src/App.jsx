@@ -8,6 +8,7 @@ import ProfilePage from "../pages/ProfilePage";
 import EditProfilePage from "../pages/EditProfilePage";
 import EducationPage from "../pages/EducationPage";
 import ArticlePage from "../pages/ArticlePage";
+import MapPage from "../pages/MapPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/registrar" element={<RegisterPage /> }/>
         <Route path="/denuncias" element={<ReportPage />} />
         <Route path="/home" element={<HomePage />}/>
+        <Route path="/mapa" element={<MapPage />} /> 
         <Route path="/perfil" element={<ProfilePage />}/>
         <Route path="/editar-perfil" element={<EditProfilePage />}/>
         <Route path="/aprender" element={<EducationPage />}/>
