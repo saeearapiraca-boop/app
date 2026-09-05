@@ -84,9 +84,6 @@
   padding: 0 !important;
 }
 
-.loc-text {
-
-}
 
 .card-top .user-info h4 {
   margin: 0 !important;
@@ -175,7 +172,7 @@
 }
 
 .fab-pill {
-  background: #00c04b;
+  background:  #3461A4;
   color: #fff;
   border: none;
   padding: 8px 14px;
@@ -187,7 +184,7 @@
 }
 
 .fab-main-btn {
-  background: #00c04b;
+  background:  #3461A4;
   color: #fff;
   border: none;
   width: 52px;
