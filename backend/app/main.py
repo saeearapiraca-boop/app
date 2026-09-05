@@ -1,7 +1,10 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.v1 import api_router
 from app.core.config import settings
@@ -53,10 +56,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Configuração de Arquivos Estáticos (Uploads de imagens/vídeos)
+# Path(__file__).resolve().parent é 'backend/app', e .parent é 'backend'
+BASE_BACKEND_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_BACKEND_DIR / "static"
+
+# Garante que a pasta física exista
+os.makedirs(STATIC_DIR / "uploads", exist_ok=True)
+
+# Monta a rota /static apontando para a pasta física backend/static
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
 app.include_router(api_router)
 
 
 @app.get("/")
 def read_root():
     return {"status": "SAEE Arapiraca API está online!"}
-
