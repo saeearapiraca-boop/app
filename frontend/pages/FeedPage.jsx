@@ -37,7 +37,13 @@ export default function FeedPage() {
           const listaUnica = Array.isArray(data)
             ? Array.from(new Map(data.map((item) => [item.id, item])).values())
             : [];
-          setOcorrencias(listaUnica);
+
+          // Ordena as mais recentes no topo
+          const listaOrdenada = listaUnica.sort((a, b) => {
+            return new Date(b.created_at) - new Date(a.created_at);
+            });
+
+            setOcorrencias(listaOrdenada);
         }
       } catch (err) {
         if (isMounted) {
@@ -138,9 +144,6 @@ export default function FeedPage() {
         </button>
       </div>
 
-      <div className="feed-header-actions">
-        <span className="ver-mais">ver mais</span>
-      </div>
 
       {/* Lista de Cards */}
       <div className="feed-list">
