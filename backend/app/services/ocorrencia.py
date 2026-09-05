@@ -4,7 +4,7 @@ from app.schemas.ocorrencia import OcorrenciaCreate
 from app.models.ocorrencia import Ocorrencia
 from app.crud.ocorrencia import (
     create_ocorrencia,
-    get_total_ocorrencias,
+    get_totais_ocorrencias,
     get_ocorrencias_por_status,
     get_ocorrencias_por_bairro
 )
@@ -14,7 +14,7 @@ def registrar_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url
 
 def get_dashboard_data(db: Session) -> Dict[str, Any]:
     # 1. Total absoluto
-    total_ocorrencias = get_total_ocorrencias(db)
+    total_ocorrencias = get_totais_ocorrencias(db)
 
     # 2. Status
     status_data = get_ocorrencias_por_status(db)

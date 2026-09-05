@@ -65,9 +65,9 @@ def get_totais_ocorrencias(db: Session):
     # Calcula o total geral de ocorrências
     total = db.query(func.count(Ocorrencia.id)).scalar() or 0
     
-    # É necessário ajustar as strings "ABERTO" e "RESOLVIDO" caso o Enum StatusOcorrencia utilize valores diferentes
-    em_aberto = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == "ABERTO").scalar() or 0
-    resolvidas = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == "RESOLVIDO").scalar() or 0
+    # É necessário ajustar as strings "ABERTO" e "RESOLVIDO" caso o Enum StatusOcorrencia utilize valores diferentes // ajustei, se nao der certo ajustar de novo - igor
+    em_aberto = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == StatusOcorrencia.aberto).scalar() or 0
+    resolvidas = db.query(func.count(Ocorrencia.id)).filter(Ocorrencia.status == StatusOcorrencia.resolvido).scalar() or 0
     
     return {
         "totalOcorrencias": total,
@@ -83,3 +83,6 @@ def get_ocorrencias_por_bairro(db: Session):
     # Como o schema possui o campo "localizacao", estamos agrupando por ele.
     # Retorna uma lista de tuplas: [(localizacao1, contagem1), (localizacao2, contagem2)]
     return db.query(Ocorrencia.localizacao, func.count(Ocorrencia.id)).group_by(Ocorrencia.localizacao).all()
+
+def get_ocorrencias_by_usuario(db: Session, usuario_id: str) -> List[Ocorrencia]:
+    return db.query(Ocorrencia).filter(Ocorrencia.usuario_id == usuario_id).all()

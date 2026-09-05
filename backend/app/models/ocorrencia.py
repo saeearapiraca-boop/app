@@ -28,9 +28,8 @@ class Ocorrencia(Base):
     comentarios = relationship("Comentario", back_populates="ocorrencia", cascade="all, delete-orphan")
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-    # Se quiser associar a um usuário futuramente, adicione o campo abaixo:
-    # usuario_id = Column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=True)
-    # usuario = relationship("User")
+    usuario_id = Column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=True)
+    usuario = relationship("User")
 
 class Comentario(Base):
     __tablename__ = "comentarios"

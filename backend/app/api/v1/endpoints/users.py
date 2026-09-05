@@ -1,12 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from typing import List
 from uuid import UUID
 
-from app.api.deps import get_db
+from app.api.deps import get_db, get_current_user
 from app.crud import user as crud_user
 from app.core.security import get_password_hash
 from app.schemas.user import UserCreate, UserRead, UserUpdate, UserLogin, TokenResponse
 from app.services.user import register_user, login_user
+from app.models.user import User  # Para tipar o current_user
+from app.schemas.ocorrencia import OcorrenciaRead
+from app.crud.ocorrencia import get_ocorrencias_by_usuario
 
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 
@@ -116,3 +120,16 @@ def delete_user(
         )
     
     crud_user.delete_user(db, user=user)
+
+@router.get(
+    "/me/ocorrencias", 
+    response_model=List[OcorrenciaRead],
+    summary="Listar minhas denúncias",
+    description="Retorna todas as ocorrências criadas pelo usuário logado."
+)
+def ler_minhas_ocorrencias(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    ocorrencias = get_ocorrencias_by_usuario(db=db, usuario_id=current_user.id)
+    return ocorrencias
