@@ -25,7 +25,7 @@ export default function BottomNav() {
       </NavLink>
 
       <NavLink
-        to="/denuncias"
+        to="/registros"
         className={({ isActive }) =>
           isActive ? "nav-item active" : "nav-item"
         }

@@ -9,6 +9,7 @@ import EditProfilePage from "../pages/EditProfilePage";
 import EducationPage from "../pages/EducationPage";
 import ArticlePage from "../pages/ArticlePage";
 import MapPage from "../pages/MapPage";
+import FeedPage from "../pages/FeedPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registrar" element={<RegisterPage /> }/>
         <Route path="/denuncias" element={<ReportPage />} />
+        <Route path="/registros" element={<FeedPage />}/>
         <Route path="/home" element={<HomePage />}/>
         <Route path="/mapa" element={<MapPage />} /> 
         <Route path="/perfil" element={<ProfilePage />}/>
