@@ -18,9 +18,10 @@ class OcorrenciaUpdateStatus(BaseModel):
 
 class OcorrenciaRead(OcorrenciaBase):
     id: UUID
+    usuario_id: Optional[UUID] = None
     status: StatusOcorrencia
     midia_url: Optional[str] = None
-    curtidas: int
+    curtidas: Optional[int] = 0
     created_at: datetime
     updated_at: datetime
 
