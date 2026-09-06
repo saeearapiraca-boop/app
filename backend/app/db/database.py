@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from app.core.config import settings
 
 # O 'engine' é o que realmente comunica com o banco
-engine = create_engine(settings.DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True, pool_recycle=300)
 
 # Criamos uma fábrica de sessões
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
