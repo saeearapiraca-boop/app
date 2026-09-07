@@ -3,13 +3,16 @@ from sqlalchemy import func # Importação necessária para as agregações (COU
 from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia, Comentario
 from app.schemas.ocorrencia import OcorrenciaCreate, ComentarioCreate
 from typing import Optional, List
+from app.models.user import User
 
-def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
+def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None, usuario_id: UUID = None) -> Ocorrencia:
     ocorrencia = Ocorrencia(
         descricao=ocorrencia_in.descricao,
         localizacao=ocorrencia_in.localizacao,
         tipo=ocorrencia_in.tipo,
         midia_url=midia_url,
+        status="Aberto",
+        usuario_id=usuario_id
     )
     db.add(ocorrencia)
     db.commit()
