@@ -164,7 +164,7 @@ export default function FeedPage() {
                 <header className="card-top">
                   <img src="/user.png" alt="Avatar" className="user-icon" />
                   <div className="user-info">
-                    <h4>Cidadão</h4>
+                    <h4>{item.nome_usuario || "Cidadão"}</h4>
                     <small className="time-text">{getTempoDecorrido(item.created_at)}</small>
                     <p className="loc-text">{item.localizacao}</p>
                   </div>
