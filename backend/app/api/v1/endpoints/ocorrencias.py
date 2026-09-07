@@ -14,7 +14,6 @@ from app.schemas.ocorrencia import (
     DashboardResponse
 )
 from app.crud.ocorrencia import (
-    create_ocorrencia,
     get_ocorrencia, 
     update_ocorrencia_status, 
     create_comentario, 
@@ -24,8 +23,6 @@ from app.crud.ocorrencia import (
 )
 from app.services.ocorrencia import registrar_ocorrencia, get_dashboard_data
 from typing import List, Optional
-from app.models.user import User
-from app.api.deps import get_current_user
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
 
@@ -49,7 +46,6 @@ async def criar_ocorrencia(
     tipo: str = Form(...),
     midia: UploadFile = File(...),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
 ):
     if midia.content_type not in ALLOWED_MIME_TYPES:
         raise HTTPException(
@@ -74,7 +70,7 @@ async def criar_ocorrencia(
     midia_url = f"/static/uploads/{safe_filename}"
 
     ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
-    return create_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url, usuario_id=current_user.id)
+    return registrar_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url)
 
 
 @router.get(
