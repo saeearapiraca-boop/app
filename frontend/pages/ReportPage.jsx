@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ReportPage.css";
 import BottomNav from "../src/components/BottomNav";
 import { useNavigate } from "react-router-dom";
+import UserService from "../src/services/userService"; 
 
 const REPORT_TYPES = [
   { value: "esgoto", label: "Esgoto" },
@@ -47,9 +48,21 @@ export default function ReportPage() {
         formData.append("midia", media);
       }
 
+      // 1. Resgata o usuário logado e anexa o ID no formulário
+      const user = UserService.getUser();
+      if (user?.id) {
+        formData.append("usuario_id", user.id);
+      }
+
+      // 2. Resgata o token JWT para autenticar a requisição
+      const token = UserService.getToken();
+
       const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
       const response = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
         method: "POST",
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: formData,
       });
 
@@ -65,9 +78,8 @@ export default function ReportPage() {
       setMedia(null);
       setMediaPreview(null);
 
-      // Redireciona para o feed após 1 segundo para o usuário ler a mensagem
       setTimeout(() => {
-        navigate("/registros"); // ajuste para a sua rota (ex: /registros ou /feed)
+        navigate("/registros");
       }, 1000);
 
     } catch (err) {
@@ -76,6 +88,7 @@ export default function ReportPage() {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="report-container">
