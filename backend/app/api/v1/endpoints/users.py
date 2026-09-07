@@ -12,6 +12,7 @@ from app.models.user import User  # Para tipar o current_user
 from app.schemas.ocorrencia import OcorrenciaRead
 from app.crud.ocorrencia import get_ocorrencias_by_usuario
 
+
 router = APIRouter(prefix="/usuarios", tags=["Usuários"])
 
 
@@ -121,15 +122,9 @@ def delete_user(
     
     crud_user.delete_user(db, user=user)
 
-@router.get(
-    "/me/ocorrencias", 
-    response_model=List[OcorrenciaRead],
-    summary="Listar minhas denúncias",
-    description="Retorna todas as ocorrências criadas pelo usuário logado."
-)
-def ler_minhas_ocorrencias(
+@router.get("/me/ocorrencias", response_model=List[OcorrenciaRead])
+def listar_minhas_ocorrencias(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user = Depends(get_current_user),
 ):
-    ocorrencias = get_ocorrencias_by_usuario(db=db, usuario_id=current_user.id)
-    return ocorrencias
+    return get_ocorrencias_by_usuario(db=db, usuario_id=current_user.id)
