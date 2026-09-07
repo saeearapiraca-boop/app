@@ -9,8 +9,18 @@ from app.crud.ocorrencia import (
     get_ocorrencias_por_bairro
 )
 
-def registrar_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
-    return create_ocorrencia(db=db, ocorrencia_in=ocorrencia_in, midia_url=midia_url)
+def registrar_ocorrencia(
+    db: Session, 
+    ocorrencia_in: OcorrenciaCreate, 
+    midia_url: str = None, 
+    usuario_id: str = None
+):
+    return create_ocorrencia(
+        db=db, 
+        ocorrencia_in=ocorrencia_in, 
+        midia_url=midia_url, 
+        usuario_id=usuario_id
+    )
 
 def get_dashboard_data(db: Session) -> Dict[str, Any]:
     # 1. Total absoluto
