@@ -22,13 +22,13 @@ class Ocorrencia(Base):
     descricao = Column(String(500), nullable=False)
     localizacao = Column(String(255), nullable=False)
     tipo = Column(Enum(TipoOcorrencia), nullable=False)
-    status = Column(Enum(StatusOcorrencia), nullable=False, default=StatusOcorrencia.aberto)
+    status = Column(String, nullable=False, default="Aberto")
     midia_url = Column(String(255), nullable=False)
     curtidas = Column(Integer, default=0, nullable=False)
     comentarios = relationship("Comentario", back_populates="ocorrencia", cascade="all, delete-orphan")
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-    usuario_id = Column(UUID(as_uuid=False), ForeignKey("users.id"), nullable=True)
+    usuario_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
     usuario = relationship("User")
 
 class Comentario(Base):
