@@ -34,6 +34,28 @@ class UserService {
     return data;
   }
 
+  // NOVO MÉTODO: busca o histórico de ocorrências do usuário autenticado
+  static async getMinhasOcorrencias() {
+    const token = this.getToken();
+
+    const response = await fetch(`${API_BASE_URL}/api/v1/usuarios/me/ocorrencias`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const error = new Error(errorData?.detail || `Erro ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+
+    return await response.json();
+  }
+
   static logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
