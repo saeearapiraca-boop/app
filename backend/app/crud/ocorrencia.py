@@ -3,13 +3,21 @@ from sqlalchemy import func # Importação necessária para as agregações (COU
 from app.models.ocorrencia import Ocorrencia, TipoOcorrencia, StatusOcorrencia, Comentario
 from app.schemas.ocorrencia import OcorrenciaCreate, ComentarioCreate
 from typing import Optional, List
+from app.models.user import User 
 
-def create_ocorrencia(db: Session, ocorrencia_in: OcorrenciaCreate, midia_url: str = None) -> Ocorrencia:
+def create_ocorrencia(
+    db: Session, 
+    ocorrencia_in: OcorrenciaCreate, 
+    midia_url: str = None, 
+    usuario_id: str = None
+) -> Ocorrencia:
     ocorrencia = Ocorrencia(
         descricao=ocorrencia_in.descricao,
         localizacao=ocorrencia_in.localizacao,
         tipo=ocorrencia_in.tipo,
+        status="Aberto",
         midia_url=midia_url,
+        usuario_id=usuario_id,
     )
     db.add(ocorrencia)
     db.commit()
@@ -32,11 +40,20 @@ def update_ocorrencia_status(db: Session, ocorrencia_id: str, novo_status: Statu
 def get_all_ocorrencias(db: Session, localizacao: Optional[str] = None) -> List[Ocorrencia]:
     query = db.query(Ocorrencia)
 
-    #se o front passar uma localizaçao ou bairro, filtramos por aproximaçao, case insensitive
     if localizacao:
         query = query.filter(Ocorrencia.localizacao.ilike(f"%{localizacao}%"))
     
-    return query.all()
+    ocorrencias = query.all()
+
+    # Mapeia os nomes dos autores para cada ocorrência
+    for oc in ocorrencias:
+        if oc.usuario_id:
+            user = db.query(User).filter(User.id == oc.usuario_id).first()
+            oc.nome_usuario = user.nome_completo if user else "Cidadão"
+        else:
+            oc.nome_usuario = "Cidadão"
+
+    return ocorrencias
 
 def curtir_ocorrencia(db: Session, ocorrencia_id: str):
     ocorrencia = get_ocorrencia(db, ocorrencia_id)
@@ -86,3 +103,6 @@ def get_ocorrencias_por_bairro(db: Session):
 
 def get_ocorrencias_by_usuario(db: Session, usuario_id: str) -> List[Ocorrencia]:
     return db.query(Ocorrencia).filter(Ocorrencia.usuario_id == usuario_id).all()
+
+def get_total_ocorrencias(db: Session) -> int:
+    return db.query(Ocorrencia).count()

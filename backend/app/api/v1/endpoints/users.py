@@ -122,7 +122,11 @@ def delete_user(
     
     crud_user.delete_user(db, user=user)
 
-@router.get("/me/ocorrencias", response_model=List[OcorrenciaRead])
+@router.get("/me/ocorrencias", response_model=List[OcorrenciaRead],
+    summary="Listar minhas denúncias",
+    description="Retorna todas as ocorrências criadas pelo usuário logado."
+)
+
 def listar_minhas_ocorrencias(
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user),
