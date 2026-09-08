@@ -8,6 +8,11 @@ def migrate():
             ADD COLUMN IF NOT EXISTS data_nascimento DATE,
             ADD COLUMN IF NOT EXISTS sexo VARCHAR(20);
         """))
+        connection.execute(text("""
+            ALTER TABLE ocorrencias
+            ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+            ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
+        """))
         connection.commit()
         print("✅ Tabela atualizada com sucesso")
 

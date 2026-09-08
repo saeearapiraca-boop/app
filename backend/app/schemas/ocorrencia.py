@@ -11,13 +11,36 @@ class OcorrenciaBase(BaseModel):
     tipo: TipoOcorrencia
 
 class OcorrenciaCreate(OcorrenciaBase):
-    pass
+    latitude: float = Field(
+        ...,
+        ge=-90,
+        le=90,
+        description="Latitude geográfica da ocorrência, variando de -90 a 90.",
+    )
+    longitude: float = Field(
+        ...,
+        ge=-180,
+        le=180,
+        description="Longitude geográfica da ocorrência, variando de -180 a 180.",
+    )
 
 class OcorrenciaUpdateStatus(BaseModel):
     status: StatusOcorrencia
 
 class OcorrenciaRead(OcorrenciaBase):
     id: UUID
+    latitude: Optional[float] = Field(
+        None,
+        ge=-90,
+        le=90,
+        description="Latitude geográfica da ocorrência, variando de -90 a 90.",
+    )
+    longitude: Optional[float] = Field(
+        None,
+        ge=-180,
+        le=180,
+        description="Longitude geográfica da ocorrência, variando de -180 a 180.",
+    )
     usuario_id: Optional[UUID] = None
     status: StatusOcorrencia
     midia_url: Optional[str] = None

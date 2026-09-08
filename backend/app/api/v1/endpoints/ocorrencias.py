@@ -44,6 +44,8 @@ async def criar_ocorrencia(
     descricao: str = Form(...),
     localizacao: str = Form(...),
     tipo: str = Form(...),
+    latitude: float = Form(..., ge=-90, le=90),
+    longitude: float = Form(..., ge=-180, le=180),
     usuario_id: Optional[str] = Form(None), # fallback caso enviem direto pelo FormData
     midia: UploadFile = File(...),
     db: Session = Depends(get_db),
@@ -73,7 +75,13 @@ async def criar_ocorrencia(
         f.write(content)
 
     midia_url = f"/static/uploads/{safe_filename}"
-    ocorrencia_in = OcorrenciaCreate(descricao=descricao, localizacao=localizacao, tipo=tipo)
+    ocorrencia_in = OcorrenciaCreate(
+        descricao=descricao,
+        localizacao=localizacao,
+        tipo=tipo,
+        latitude=latitude,
+        longitude=longitude,
+    )
 
     return registrar_ocorrencia(
         db=db, 

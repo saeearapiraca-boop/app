@@ -65,6 +65,11 @@
   resize: none; 
 }
 
+.location-status {
+  color: #3461a4;
+  font-size: 12px;
+}
+
 /* Área de Botão de Upload Customizada (Estilo Card) */
 .upload-label {
   display: flex;

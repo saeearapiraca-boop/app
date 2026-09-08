@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, Enum, ForeignKey, func, Integer
+from sqlalchemy import Column, String, DateTime, Enum, ForeignKey, func, Integer, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from app.db.database import Base
@@ -21,6 +21,9 @@ class Ocorrencia(Base):
     id = Column(UUID(as_uuid=False), primary_key=True, server_default=func.gen_random_uuid())
     descricao = Column(String(500), nullable=False)
     localizacao = Column(String(255), nullable=False)
+    # Campos nullable para preservar ocorrências criadas antes da migration.
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     tipo = Column(Enum(TipoOcorrencia), nullable=False)
     status = Column(String, nullable=False, default="Aberto")
     midia_url = Column(String(255), nullable=False)

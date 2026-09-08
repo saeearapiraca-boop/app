@@ -14,6 +14,8 @@ def create_ocorrencia(
     ocorrencia = Ocorrencia(
         descricao=ocorrencia_in.descricao,
         localizacao=ocorrencia_in.localizacao,
+        latitude=ocorrencia_in.latitude,
+        longitude=ocorrencia_in.longitude,
         tipo=ocorrencia_in.tipo,
         status="Aberto",
         midia_url=midia_url,
