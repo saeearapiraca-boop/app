@@ -18,6 +18,7 @@ export default function ReportPage() {
   const [mediaPreview, setMediaPreview] = useState(null);
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [locationStatus, setLocationStatus] = useState("");
   const [type, setType] = useState(REPORT_TYPES[0].value);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -33,6 +34,50 @@ export default function ReportPage() {
     }
   };
 
+  const geocodeLocation = async (address) => {
+    if (!address.trim()) {
+      throw new Error("Informe a localização da denúncia.");
+    }
+
+    const params = new URLSearchParams({
+      q: `${address}, Arapiraca, AL, Brasil`,
+      format: "jsonv2",
+      limit: "1",
+      countrycodes: "br",
+    });
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?${params.toString()}`,
+      { headers: { Accept: "application/json" } }
+    );
+    const results = await response.json().catch(() => []);
+
+    if (!response.ok || results.length === 0) {
+      throw new Error("Não foi possível encontrar as coordenadas dessa localização.");
+    }
+
+    const coordinates = {
+      latitude: Number(results[0].lat),
+      longitude: Number(results[0].lon),
+    };
+    return coordinates;
+  };
+
+  const handleLocationBlur = async () => {
+    if (!location.trim()) {
+      setLocationStatus("");
+      return;
+    }
+
+    setLocationStatus("Buscando localização...");
+    try {
+      await geocodeLocation(location);
+      setLocationStatus("Localização encontrada");
+    } catch (err) {
+      setLocationStatus("");
+      setError(err.message);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccess("");
@@ -44,6 +89,9 @@ export default function ReportPage() {
       formData.append("descricao", description);
       formData.append("localizacao", location);
       formData.append("tipo", type);
+      const coordinates = await geocodeLocation(location);
+      formData.append("latitude", coordinates.latitude);
+      formData.append("longitude", coordinates.longitude);
       if (media) {
         formData.append("midia", media);
       }
@@ -68,12 +116,16 @@ export default function ReportPage() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data?.detail ?? `Erro ${response.status}`);
+        const detail = Array.isArray(data?.detail)
+          ? data.detail.map((item) => item.msg || item.detail).filter(Boolean).join("; ")
+          : data?.detail;
+        throw new Error(detail || `Erro ${response.status}`);
       }
 
       setSuccess("Denúncia registrada com sucesso! Redirecionando...");
       setDescription("");
       setLocation("");
+      setLocationStatus("");
       setType(REPORT_TYPES[0].value);
       setMedia(null);
       setMediaPreview(null);
@@ -160,9 +212,13 @@ export default function ReportPage() {
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            onBlur={handleLocationBlur}
             required
             placeholder="Ex: Rua Primavera, próximo ao mercado"
           />
+          {locationStatus && (
+            <span className="location-status">{locationStatus}</span>
+          )}
         </div>
 
         <button type="submit" className="submit-btn" disabled={loading}>
