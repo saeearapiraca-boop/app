@@ -6,6 +6,8 @@ export default function ComentariosDrawer({ ocorrenciaId, onClose }) {
   const [comentarios, setComentarios] = useState([]);
   const [novoTexto, setNovoTexto] = useState("");
   const [loading, setLoading] = useState(true);
+  const [enviando, setEnviando] = useState(false);
+  const [erro, setErro] = useState(null);
 
   useEffect(() => {
     async function carregar() {
@@ -23,15 +25,20 @@ export default function ComentariosDrawer({ ocorrenciaId, onClose }) {
 
   const handleEnviar = async (e) => {
     e.preventDefault();
-    if (!novoTexto.trim()) return;
+    if (!novoTexto.trim() || enviando) return;
 
+    setEnviando(true);
+    setErro(null);
     try {
-        const dados = await OcorrenciaService.listarComentarios(ocorrenciaId);
-        setComentarios(dados);
-    } catch {
-        // Bloco sem parâmetro não utilizado
+      await OcorrenciaService.adicionarComentario(ocorrenciaId, novoTexto.trim());
+      setNovoTexto("");
+      const dados = await OcorrenciaService.listarComentarios(ocorrenciaId);
+      setComentarios(dados);
+    } catch (err) {
+      console.error(err);
+      setErro("Não foi possível enviar seu comentário. Tente novamente.");
     } finally {
-        setLoading(false);
+      setEnviando(false);
     }
   };
 
@@ -60,15 +67,20 @@ export default function ComentariosDrawer({ ocorrenciaId, onClose }) {
           )}
         </div>
 
+        {erro && <p className="status-msg erro-msg">{erro}</p>}
+
         <form onSubmit={handleEnviar} className="drawer-form">
           <input
             type="text"
             placeholder="Adicione um comentário..."
             value={novoTexto}
             onChange={(e) => setNovoTexto(e.target.value)}
+            disabled={enviando}
             required
           />
-          <button type="submit">Enviar</button>
+          <button type="submit" disabled={enviando}>
+            {enviando ? "Enviando..." : "Enviar"}
+          </button>
         </form>
       </div>
     </div>
