@@ -1,7 +1,8 @@
 import "./HomePage.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../src/components/BottomNav";
+import UserService from "../src/services/userService";
 
 import {
   MapContainer,
@@ -10,40 +11,50 @@ import {
   Popup
 } from "react-leaflet";
 
-export default function HomePage() {
+const CENTER_ARAPIRACA = [-9.7549, -36.6611];
 
+export default function HomePage() {
   const navigate = useNavigate();
 
-  const [problemas] = useState([
-    {
-      id: 1,
-      titulo: "Rua São Francisco - Centro",
-      descricao: "Muito lixo acumulado",
-      bairro: "Centro",
-      likes: 23,
-      comentarios: 12,
-      posicao: [-9.7549, -36.6611]
-    },
-    {
-      id: 2,
-      titulo: "Rua Duque de Caxias - Brasília",
-      descricao: "Buraco enorme na rua",
-      bairro: "Brasília",
-      likes: 10,
-      comentarios: 4,
-      posicao: [-9.7570, -36.6580]
-    }
-  ]);
+  const [ocorrencias, setOcorrencias] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOcorrencias = async () => {
+      try {
+        const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+        const token = UserService.getToken();
+
+        const response = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          // Filtra ocorrências que possuem latitude e longitude válidas para o mapa
+          const validos = data.filter(
+            (item) => item.latitude !== null && item.longitude !== null
+          );
+          setOcorrencias(validos);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar ocorrências para o mapa da home:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOcorrencias();
+  }, []);
 
   return (
-
     <div className="home-page">
-
       <BottomNav />
 
       {/* HEADER */}
       <header className="home-header">
-
         <button
           className="menu-btn"
           onClick={() => alert("Abrir menu")}
@@ -58,26 +69,21 @@ export default function HomePage() {
           alt="Usuário"
           className="user-avatar"
         />
-
       </header>
 
       {/* PESQUISA */}
       <div className="search-box">
-
         <input
           type="text"
           placeholder="Pesquisar problemas..."
         />
-
         <button>
           <i className="bi bi-search"></i>
         </button>
-
       </div>
 
       {/* MAPA */}
       <section className="map-section">
-
         <button
           className="btn-expand-map"
           onClick={() => navigate("/mapa")}
@@ -87,64 +93,44 @@ export default function HomePage() {
         </button>
 
         <MapContainer
-          center={[-9.7549, -36.6611]}
+          center={CENTER_ARAPIRACA}
           zoom={13}
           scrollWheelZoom={true}
           className="map"
         >
-
           <TileLayer
-            attribution='&copy; OpenStreetMap'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {problemas.map((problema) => (
-
+          {ocorrencias.map((item) => (
             <Marker
-              key={problema.id}
-              position={problema.posicao}
+              key={item.id}
+              position={[item.latitude, item.longitude]}
             >
-
               <Popup>
-
-                <strong>
-                  {problema.titulo}
-                </strong>
-
+                <strong>{item.tipo.toUpperCase()}</strong>
                 <br />
-
-                {problema.descricao}
-
+                {item.localizacao}
+                <br />
+                <small>{item.descricao}</small>
               </Popup>
-
             </Marker>
-
           ))}
-
         </MapContainer>
-
       </section>
 
       {/* PROBLEMAS */}
       <section className="section">
-
         <div className="section-header">
-
-          <h3>
-            Problemas em destaque
-          </h3>
-
-          <span>
+          <h3>Problemas em destaque</h3>
+          <span onClick={() => navigate("/mapa")} style={{ cursor: "pointer" }}>
             ver todos
           </span>
-
         </div>
 
         <div className="problem-card">
-
-          <div className="problem-image">
-
-          </div>
+          <div className="problem-image"></div>
 
           <div className="problem-content">
             <div className="problem-header">
@@ -164,26 +150,22 @@ export default function HomePage() {
                 <span>35 relatos</span>
               </div>
 
-              <button>Explorar</button>
+              <button onClick={() => navigate("/mapa")}>Explorar</button>
             </div>
           </div>
-          </div>
-
+        </div>
       </section>
 
       {/* EDUCATIVO */}
       <section className="section">
-
         <div className="section-header">
           <h3>Conteúdo educativo</h3>
-          <span onClick={() => navigate('/aprender')}>ver mais</span>
+          <span onClick={() => navigate('/aprender')} style={{ cursor: "pointer" }}>ver mais</span>
         </div>
 
         <div className="education-grid">
-
           <div className="education-card">
             <div className="education-image"></div>
-
             <div className="education-content">
               <h3>Descarte de Lixo</h3>
               <p>Aprenda a separar o lixo corretamente e descubra os dias da coleta seletiva no seu bairro.</p>
@@ -193,18 +175,14 @@ export default function HomePage() {
 
           <div className="education-card">
             <div className="education-image2"></div>
-
             <div className="education-content">
               <h3>Água Parada</h3>
               <p>Saiba como vistoriar seu quintal e evitar o acúmulo de água em vasos e garrafas.</p>
               <span>Ler mais</span>
             </div>
           </div>
-
         </div>
-
       </section>
     </div>
-
   );
 }
