@@ -53,9 +53,14 @@ app = FastAPI(
 )
 
 # CORS - Permitir requisições do frontend
+# Em produção, defina a variável de ambiente ALLOWED_ORIGINS com o(s) domínio(s)
+# do frontend publicado (ex: "https://saeearapiraca.vercel.app"), separados por vírgula.
+_origins_padrao = "http://localhost:5173,http://localhost:3000,https://saeearapiraca.vercel.app"
+allowed_origins = os.getenv("ALLOWED_ORIGINS", _origins_padrao).split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
