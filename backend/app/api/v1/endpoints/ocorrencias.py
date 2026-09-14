@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, status
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, get_optional_current_user
 from app.schemas.ocorrencia import (
     OcorrenciaCreate, 
     OcorrenciaRead, 
@@ -177,6 +177,7 @@ def adicionar_comentario(
     ocorrencia_id: str,
     comentario_in: ComentarioCreate,
     db: Session = Depends(get_db),
+    current_user = Depends(get_optional_current_user),
 ):
     ocorrencia = get_ocorrencia(db, ocorrencia_id=ocorrencia_id)
     if not ocorrencia:
@@ -184,7 +185,8 @@ def adicionar_comentario(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Ocorrência não encontrada.",
         )
-    return create_comentario(db=db, ocorrencia_id=ocorrencia_id, comentario_in=comentario_in)
+    autor_id = current_user.id if current_user else None
+    return create_comentario(db=db, ocorrencia_id=ocorrencia_id, comentario_in=comentario_in, usuario_id=autor_id)
 
 
 @router.get(
