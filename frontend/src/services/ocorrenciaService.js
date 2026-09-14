@@ -1,3 +1,5 @@
+import UserService from "./userService";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 export const OcorrenciaService = {
@@ -29,9 +31,13 @@ export const OcorrenciaService = {
   },
 
   async adicionarComentario(ocorrenciaId, texto) {
+    const token = UserService.getToken();
     const res = await fetch(`${API_BASE_URL}/api/v1/ocorrencias/${ocorrenciaId}/comentarios`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
       body: JSON.stringify({ texto }),
     });
     if (!res.ok) throw new Error("Erro ao postar comentário.");

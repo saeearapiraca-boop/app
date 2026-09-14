@@ -65,18 +65,34 @@ def curtir_ocorrencia(db: Session, ocorrencia_id: str):
         db.refresh(ocorrencia)
     return ocorrencia
 
-def create_comentario(db: Session, ocorrencia_id: str, comentario_in: ComentarioCreate) -> Comentario:
+def create_comentario(db: Session, ocorrencia_id: str, comentario_in: ComentarioCreate, usuario_id: str = None) -> Comentario:
     comentario = Comentario(
         ocorrencia_id=ocorrencia_id,
         texto=comentario_in.texto,
+        usuario_id=usuario_id,
     )
     db.add(comentario)
     db.commit()
     db.refresh(comentario)
+
+    comentario.nome_usuario = "Cidadão"
+    if comentario.usuario_id:
+        user = db.query(User).filter(User.id == comentario.usuario_id).first()
+        comentario.nome_usuario = user.nome_completo if user else "Cidadão"
     return comentario
 
 def get_comentarios_by_ocorrencia(db: Session, ocorrencia_id: str) -> List[Comentario]:
-    return db.query(Comentario).filter(Comentario.ocorrencia_id == ocorrencia_id).all()
+    comentarios = db.query(Comentario).filter(Comentario.ocorrencia_id == ocorrencia_id).all()
+
+    # Mesmo padrão usado em get_all_ocorrencias: mapeia o nome do autor de cada comentário
+    for c in comentarios:
+        if c.usuario_id:
+            user = db.query(User).filter(User.id == c.usuario_id).first()
+            c.nome_usuario = user.nome_completo if user else "Cidadão"
+        else:
+            c.nome_usuario = "Cidadão"
+
+    return comentarios
 
 # --- Consultas do Dashboard Administrativo ---
 
