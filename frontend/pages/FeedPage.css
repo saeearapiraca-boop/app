@@ -58,6 +58,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: box-shadow 0.3s ease, outline 0.3s ease;
+}
+
+.feed-card-destacado {
+  outline: 2px solid #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
 }
 
 .card-top {

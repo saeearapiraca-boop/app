@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OcorrenciaService } from "../src/services/ocorrenciaService";
 import ComentariosDrawer from "../src/components/ComentariosDrawer";
+import ShareModal from "../src/components/ShareModal";
 import BottomNav from "../src/components/BottomNav";
 import "./FeedPage.css";
 
@@ -13,6 +14,7 @@ export default function FeedPage() {
   const [busca, setBusca] = useState("");
   const [activeOcorrenciaId, setActiveOcorrenciaId] = useState(null);
   const [showFabMenu, setShowFabMenu] = useState(false);
+  const [ocorrenciaParaCompartilhar, setOcorrenciaParaCompartilhar] = useState(null);
 
   // Armazena no navegador quais denúncias este usuário já curtiu
   const [likedPosts, setLikedPosts] = useState(() => {
@@ -62,6 +64,21 @@ export default function FeedPage() {
       isMounted = false;
     };
   }, []);
+
+  // Se o link foi aberto com ?ocorrencia=ID (via compartilhamento), rola até o card e destaca
+  useEffect(() => {
+    if (loading) return;
+    const params = new URLSearchParams(window.location.search);
+    const idAlvo = params.get("ocorrencia");
+    if (!idAlvo) return;
+
+    const el = document.getElementById(`ocorrencia-${idAlvo}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("feed-card-destacado");
+      setTimeout(() => el.classList.remove("feed-card-destacado"), 2500);
+    }
+  }, [loading, ocorrencias]);
 
   const handleCurtir = async (id) => {
   // Se o usuário já curtiu este post, bloqueia qualquer nova chamada
@@ -160,7 +177,7 @@ export default function FeedPage() {
             const curtiu = likedPosts.includes(item.id);
 
             return (
-              <article key={item.id} className="feed-card">
+              <article key={item.id} id={`ocorrencia-${item.id}`} className="feed-card">
                 <header className="card-top">
                   <img src="/user.png" alt="Avatar" className="user-icon" />
                   <div className="user-info">
@@ -204,7 +221,7 @@ export default function FeedPage() {
 
                   <button
                     className="btn-action"
-                    onClick={() => navigator.clipboard?.writeText(window.location.href)}
+                    onClick={() => setOcorrenciaParaCompartilhar(item)}
                   >
                     <i className="bi bi-share"></i> compartilhar
                   </button>
@@ -240,6 +257,15 @@ export default function FeedPage() {
         <ComentariosDrawer
           ocorrenciaId={activeOcorrenciaId}
           onClose={() => setActiveOcorrenciaId(null)}
+        />
+      )}
+
+      {/* Modal de Compartilhamento */}
+      {ocorrenciaParaCompartilhar && (
+        <ShareModal
+          url={`${window.location.origin}/registros?ocorrencia=${ocorrenciaParaCompartilhar.id}`}
+          mensagem={`Olha essa ocorrência (${ocorrenciaParaCompartilhar.tipo}) registrada no SAEE Arapiraca: ${ocorrenciaParaCompartilhar.localizacao || ""}`.trim()}
+          onClose={() => setOcorrenciaParaCompartilhar(null)}
         />
       )}
 
