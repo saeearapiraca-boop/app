@@ -12,6 +12,8 @@ export default function FeedPage() {
   const [error, setError] = useState("");
   const [busca, setBusca] = useState("");
   const [activeOcorrenciaId, setActiveOcorrenciaId] = useState(null);
+  const [statusSalvando, setStatusSalvando] = useState(null);
+  const [statusErro, setStatusErro] = useState(null);
   const [showFabMenu, setShowFabMenu] = useState(false);
 
   // Armazena no navegador quais denúncias este usuário já curtiu
@@ -102,6 +104,47 @@ export default function FeedPage() {
     console.error("Falha ao salvar curtida no servidor:", err);
   }
 };
+
+  const STATUS_POSSIVEIS = ["Aberto", "Em análise", "Resolvido"];
+
+  const handleAlterarStatus = async (id, novoStatus) => {
+    const anterior = ocorrencias.find((o) => o.id === id)?.status;
+    if (novoStatus === anterior) return;
+
+    setStatusSalvando(id);
+    setStatusErro(null);
+
+    // Atualiza na tela antes da resposta e desfaz se a API recusar.
+    setOcorrencias((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, status: novoStatus } : o))
+    );
+
+    try {
+      const atualizada = await OcorrenciaService.alterarStatus(id, novoStatus);
+      setOcorrencias((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: atualizada.status } : o))
+      );
+    } catch (err) {
+      console.error(err);
+      setOcorrencias((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: anterior } : o))
+      );
+      setStatusErro(id);
+    } finally {
+      setStatusSalvando(null);
+    }
+  };
+
+  const getStatusClasse = (status) => {
+    switch (status) {
+      case "Resolvido":
+        return "status-select resolvido";
+      case "Em análise":
+        return "status-select analise";
+      default:
+        return "status-select aberto";
+    }
+  };
 
   const getTipoStyle = (tipo) => {
     switch (tipo?.toLowerCase()) {
@@ -209,6 +252,31 @@ export default function FeedPage() {
                     <i className="bi bi-share"></i> compartilhar
                   </button>
                 </footer>
+
+                <div className="card-status">
+                  <label htmlFor={`status-${item.id}`}>Status</label>
+                  <select
+                    id={`status-${item.id}`}
+                    className={getStatusClasse(item.status)}
+                    value={item.status || "Aberto"}
+                    disabled={statusSalvando === item.id}
+                    onChange={(e) => handleAlterarStatus(item.id, e.target.value)}
+                  >
+                    {STATUS_POSSIVEIS.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  {statusSalvando === item.id && (
+                    <span className="status-aviso">salvando...</span>
+                  )}
+                  {statusErro === item.id && (
+                    <span className="status-aviso erro">
+                      não foi possível alterar
+                    </span>
+                  )}
+                </div>
               </article>
             );
           })}
