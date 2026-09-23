@@ -1,13 +1,15 @@
 from typing import Any, Dict
 from sqlalchemy.orm import Session
 from app.schemas.ocorrencia import OcorrenciaCreate
-from app.models.ocorrencia import Ocorrencia
+from app.models.ocorrencia import Ocorrencia, StatusOcorrencia
 from app.crud.ocorrencia import (
     create_ocorrencia,
+    update_ocorrencia_status,
     get_totais_ocorrencias,
     get_ocorrencias_por_status,
     get_ocorrencias_por_bairro
 )
+from app.services.notificacao import notificar_mudanca_status
 
 def registrar_ocorrencia(
     db: Session, 
@@ -21,6 +23,35 @@ def registrar_ocorrencia(
         midia_url=midia_url, 
         usuario_id=usuario_id
     )
+
+
+def alterar_status_ocorrencia(
+    db: Session,
+    ocorrencia: Ocorrencia,
+    novo_status: StatusOcorrencia
+) -> Ocorrencia:
+    """Atualiza o status da ocorrência e notifica o autor da denúncia.
+
+    O status anterior precisa ser lido antes do update: depois do commit o
+    valor antigo já não existe mais.
+    """
+    status_anterior = ocorrencia.status
+    status_novo = novo_status.value if hasattr(novo_status, "value") else str(novo_status)
+
+    ocorrencia_atualizada = update_ocorrencia_status(
+        db=db,
+        ocorrencia_id=str(ocorrencia.id),
+        novo_status=novo_status
+    )
+
+    notificar_mudanca_status(
+        db=db,
+        ocorrencia=ocorrencia_atualizada,
+        status_anterior=status_anterior,
+        status_novo=status_novo
+    )
+
+    return ocorrencia_atualizada
 
 def get_dashboard_data(db: Session) -> Dict[str, Any]:
     # 1. Total absoluto
