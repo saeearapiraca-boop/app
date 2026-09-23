@@ -39,13 +39,14 @@ def update_ocorrencia_status(db: Session, ocorrencia_id: str, novo_status: Statu
     
     return ocorrencia
 
-def get_all_ocorrencias(db: Session, localizacao: Optional[str] = None) -> List[Ocorrencia]:
+def get_all_ocorrencias(db: Session, localizacao: Optional[str] = None, skip: int = 0, limit: int = 10) -> List[Ocorrencia]:
     query = db.query(Ocorrencia)
 
     if localizacao:
         query = query.filter(Ocorrencia.localizacao.ilike(f"%{localizacao}%"))
     
-    ocorrencias = query.all()
+    # paginaçao
+    ocorrencias = query.offset(skip).limit(limit).all()
 
     # Mapeia os nomes dos autores para cada ocorrência
     for oc in ocorrencias:

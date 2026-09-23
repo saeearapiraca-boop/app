@@ -99,9 +99,11 @@ async def criar_ocorrencia(
 )
 def listar_ocorrencias(
     localizacao: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 10,
     db: Session = Depends(get_db),
 ) -> List[OcorrenciaRead]:
-    return get_all_ocorrencias(db=db, localizacao=localizacao)
+    return get_all_ocorrencias(db=db, localizacao=localizacao, skip=skip, limit=limit)
 
 
 @router.get(
