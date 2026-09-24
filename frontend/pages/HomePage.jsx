@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNav from "../src/components/BottomNav";
 import UserService from "../src/services/userService";
-import SinoNotificacoes from "../src/components/SinoNotificacoes";
 
 import {
   MapContainer,
@@ -65,15 +64,11 @@ export default function HomePage() {
 
         <img src="/logoSAEE.png" alt="Logo" className="logo" />
 
-        <div className="header-acoes">
-          <SinoNotificacoes />
-
-          <img
-            src="/user.png"
-            alt="Usuário"
-            className="user-avatar"
-          />
-        </div>
+        <img
+          src="/user.png"
+          alt="Usuário"
+          className="user-avatar"
+        />
       </header>
 
       {/* PESQUISA */}

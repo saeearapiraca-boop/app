@@ -28,12 +28,6 @@
   width: 40px;
 }
 
-.header-acoes {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
 /* Busca */
 
 .search-box {

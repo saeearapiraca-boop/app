@@ -22,22 +22,6 @@ export const OcorrenciaService = {
     return await res.json();
   },
 
-  // A rota de status nao exige autenticacao no backend: enquanto nao existir
-  // papel de administrador, qualquer usuario consegue alterar qualquer
-  // denuncia. Ver observacao no PR #101.
-  async alterarStatus(ocorrenciaId, status) {
-    const res = await fetch(`${API_BASE_URL}/api/v1/ocorrencias/${ocorrenciaId}/status`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData?.detail || "Erro ao alterar o status da denúncia.");
-    }
-    return await res.json();
-  },
-
   async listarComentarios(ocorrenciaId) {
     const res = await fetch(`${API_BASE_URL}/api/v1/ocorrencias/${ocorrenciaId}/comentarios`);
     if (!res.ok) throw new Error("Erro ao carregar comentários.");

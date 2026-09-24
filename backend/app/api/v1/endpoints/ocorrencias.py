@@ -15,16 +15,13 @@ from app.schemas.ocorrencia import (
 )
 from app.crud.ocorrencia import (
     get_ocorrencia, 
+    update_ocorrencia_status, 
     create_comentario, 
     get_comentarios_by_ocorrencia,
     get_all_ocorrencias, 
     curtir_ocorrencia
 )
-from app.services.ocorrencia import (
-    registrar_ocorrencia,
-    get_dashboard_data,
-    alterar_status_ocorrencia,
-)
+from app.services.ocorrencia import registrar_ocorrencia, get_dashboard_data
 from typing import List, Optional
 
 router = APIRouter(prefix="/ocorrencias", tags=["Ocorrências"])
@@ -142,13 +139,12 @@ def atualizar_status_ocorrencia(
     if not ocorrencia_existente:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ocorrência não encontrada.")
     
-    # O service atualiza o status e notifica o autor da denúncia.
-    ocorrencia_atualizada = alterar_status_ocorrencia(
-        db=db,
-        ocorrencia=ocorrencia_existente,
+    ocorrencia_atualizada = update_ocorrencia_status(
+        db=db, 
+        ocorrencia_id=ocorrencia_id, 
         novo_status=status_update.status
     )
-
+    
     return ocorrencia_atualizada
 
 
