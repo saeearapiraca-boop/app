@@ -116,15 +116,18 @@ def listar_ocorrencias(
     summary="Obter dados consolidados do dashboard",
     description="Retorna indicadores agregados sobre ocorrências cadastradas para consumo do dashboard administrativo."
 )
-def read_dashboard_summary(db: Session = Depends(get_db)):
+def read_dashboard_summary(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     try:
         return get_dashboard_data(db)
     except Exception as exc:
+        print(f"[ERRO NO DASHBOARD]: {exc}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro ao processar os indicadores do dashboard: {str(exc)}"
+            detail="Erro interno ao processar os indicadores do dashboard."
         )
-
 
 @router.patch(
     "/{ocorrencia_id}/status",

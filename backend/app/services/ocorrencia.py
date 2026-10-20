@@ -54,46 +54,43 @@ def alterar_status_ocorrencia(
     return ocorrencia_atualizada
 
 def get_dashboard_data(db: Session) -> Dict[str, Any]:
-    # 1. Total absoluto
-    total_ocorrencias = get_totais_ocorrencias(db)
+    totais = get_totais_ocorrencias(db)
 
-    # 2. Status
     status_data = get_ocorrencias_por_status(db)
     distribuicao_status = []
-    em_aberto = 0
-    resolvidas = 0
-
+    
     for status_item, count in status_data:
         status_str = status_item.value if hasattr(status_item, "value") else str(status_item)
         distribuicao_status.append({"status": status_str, "quantidade": count})
 
-        status_lower = status_str.lower()
-        if "abert" in status_lower:
-            em_aberto += count
-        elif "resolv" in status_lower:
-            resolvidas += count
-
-    # 3. Bairros
     bairros_data = get_ocorrencias_por_bairro(db)
+    bairros_agrupados = {}
+    
+    for localizacao, count in bairros_data:
+        if not localizacao:
+            nome_bairro = "Não informado"
+        else:
+            nome_bairro = localizacao.strip().title()
+            
+        bairros_agrupados[nome_bairro] = bairros_agrupados.get(nome_bairro, 0) + count
+
     distribuicao_bairros = []
     bairro_mais_afetado = None
     maior_qtd = -1
 
-    bairros_ordenados = sorted(bairros_data, key=lambda item: item[1], reverse=True)
-
-    for localizacao, count in bairros_ordenados:
-        nome_bairro = localizacao if localizacao else "Não informado"
-        distribuicao_bairros.append({"bairro": nome_bairro, "quantidade": count})
-
+    for nome, count in bairros_agrupados.items():
+        distribuicao_bairros.append({"bairro": nome, "quantidade": count})
         if count > maior_qtd:
             maior_qtd = count
-            bairro_mais_afetado = {"nome": nome_bairro, "quantidade": count}
+            bairro_mais_afetado = {"nome": nome, "quantidade": count}
+
+    distribuicao_bairros = sorted(distribuicao_bairros, key=lambda x: x["quantidade"], reverse=True)
 
     return {
         "resumo": {
-            "totalOcorrencias": total_ocorrencias,
-            "emAberto": em_aberto,
-            "resolvidas": resolvidas,
+            "totalOcorrencias": totais["totalOcorrencias"], 
+            "emAberto": totais["emAberto"],
+            "resolvidas": totais["resolvidas"],
         },
         "distribuicaoPorStatus": distribuicao_status,
         "bairros": {
