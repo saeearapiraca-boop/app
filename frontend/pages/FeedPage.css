@@ -129,8 +129,8 @@
 .media-preview-area img,
 .media-preview-area video {
   width: 100%;
-  max-height: 220px;
-  object-fit: cover;
+  height: auto;           /* Altura proporcional automática */
+  max-height: 500px;      /* Evita imagens extremamente altas */
   border-radius: 12px;
 }
 

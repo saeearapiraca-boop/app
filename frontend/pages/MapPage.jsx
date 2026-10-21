@@ -5,7 +5,6 @@ import BottomNav from "../src/components/BottomNav";
 import UserService from "../src/services/userService";
 import "./MapPage.css";
 
-// Coordenadas centrais padrão (Arapiraca - AL)
 const CENTER_ARAPIRACA = [-9.7549, -36.6611];
 
 export default function MapPage() {
@@ -14,10 +13,12 @@ export default function MapPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Define a URL base do backend
+  const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
   useEffect(() => {
     const fetchOcorrencias = async () => {
       try {
-        const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
         const token = UserService.getToken();
 
         const response = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
@@ -32,7 +33,6 @@ export default function MapPage() {
 
         const data = await response.json();
         
-        // Filtra apenas ocorrências que possuem latitude e longitude válidas
         const ocorrenciasComCoords = data.filter(
           (item) => item.latitude !== null && item.longitude !== null
         );
@@ -46,11 +46,16 @@ export default function MapPage() {
     };
 
     fetchOcorrencias();
-  }, []);
+  }, [baseUrl]);
+
+  // Função auxiliar para montar a URL completa da mídia
+  const getMediaUrl = (url) => {
+    if (!url) return "";
+    return url.startsWith("http") ? url : `${baseUrl}${url}`;
+  };
 
   return (
     <div className="full-map-page">
-      {/* Botão flutuante para voltar à tela anterior */}
       <button 
         className="map-back-btn" 
         onClick={() => navigate(-1)}
@@ -77,15 +82,26 @@ export default function MapPage() {
           <Marker key={item.id} position={[item.latitude, item.longitude]}>
             <Popup>
               <div className="popup-content">
-                <strong>{item.tipo.toUpperCase()} - {item.localizacao}</strong>
-                <p>{item.descricao}</p>
+                <strong>{item.tipo ? item.tipo.toUpperCase() : "OCORRÊNCIA"} - {item.localizacao}</strong>
+                <p style={{ margin: "6px 0" }}>{item.descricao}</p>
+                
+                {/* Renderização com URL absoluta e tratamento de vídeo */}
                 {item.midia_url && (
-                  <img 
-                    src={item.midia_url} 
-                    alt="Mídia da ocorrência" 
-                    style={{ width: "100%", borderRadius: "4px", marginTop: "8px" }} 
-                  />
+                  item.midia_url.endsWith(".mp4") ? (
+                    <video 
+                      src={getMediaUrl(item.midia_url)} 
+                      controls 
+                      style={{ width: "100%", maxHeight: "150px", borderRadius: "6px", marginTop: "6px" }} 
+                    />
+                  ) : (
+                    <img 
+                      src={getMediaUrl(item.midia_url)} 
+                      alt="Mídia da ocorrência" 
+                      style={{ width: "100%", maxHeight: "150px", objectFit: "cover", borderRadius: "6px", marginTop: "6px" }} 
+                    />
+                  )
                 )}
+
                 <small style={{ display: "block", marginTop: "6px", color: "#666" }}>
                   Status: <strong>{item.status}</strong> | Por: {item.nome_usuario || "Cidadão"}
                 </small>
