@@ -45,3 +45,21 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
         raise credentials_exception
         
     return user
+
+def get_optional_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)) -> User | None:
+    """Igual ao get_current_user, mas retorna None (em vez de 401) quando não há token válido.
+    Usado em ações que podem ser feitas por visitante, mas exibem o autor quando logado."""
+    if not token:
+        return None
+
+    raw_token = token.split(" ")[1] if token.startswith("Bearer ") else token
+
+    try:
+        payload = jwt.decode(raw_token, settings.SECRET_KEY, algorithms=["HS256"])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            return None
+    except JWTError:
+        return None
+
+    return db.query(User).filter(User.id == user_id).first()

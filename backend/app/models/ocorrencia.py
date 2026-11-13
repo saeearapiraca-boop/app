@@ -41,6 +41,9 @@ class Comentario(Base):
     ocorrencia_id = Column(UUID(as_uuid=False), ForeignKey("ocorrencias.id", ondelete="CASCADE"), nullable=False)
     texto = Column(String(500), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    # Nullable para preservar comentários antigos e permitir comentário sem login (fica como "Cidadão")
+    usuario_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=True)
+    usuario = relationship("User")
 
     # Relacionamento para puxar os comentários direto da ocorrência se precisar
     ocorrencia = relationship("Ocorrencia", back_populates="comentarios")

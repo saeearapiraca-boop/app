@@ -13,6 +13,10 @@ def migrate():
             ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
             ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
         """))
+        connection.execute(text("""
+            ALTER TABLE comentarios
+            ADD COLUMN IF NOT EXISTS usuario_id UUID REFERENCES users(id);
+        """))
         connection.commit()
         print("✅ Tabela atualizada com sucesso")
 

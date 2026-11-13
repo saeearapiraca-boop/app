@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.core.health import get_database_info, verify_database_connection
 from app.core.logger import logger
 from app.db.database import Base, engine
+from migrate import migrate
 
 
 def startup():
@@ -18,6 +19,10 @@ def startup():
     # Criar tabelas que ainda não existem no banco
     Base.metadata.create_all(bind=engine)
     logger.info("Tabelas verificadas/criadas com sucesso.")
+
+    # Aplicar migrações incrementais (novas colunas em tabelas já existentes)
+    migrate()
+    logger.info("Migrações aplicadas com sucesso.")
 
     # Verificar conexão com banco de dados
     logger.info("\nVerificando conexão com banco de dados")

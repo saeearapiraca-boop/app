@@ -59,6 +59,8 @@ class ComentarioRead(BaseModel):
     ocorrencia_id: str
     texto: str
     created_at: datetime
+    usuario_id: Optional[UUID] = None
+    nome_usuario: Optional[str] = "Cidadão"
 
     class Config:
         from_attributes = True
