@@ -10,6 +10,8 @@ import EducationPage from "../pages/EducationPage";
 import ArticlePage from "../pages/ArticlePage";
 import MapPage from "../pages/MapPage";
 import FeedPage from "../pages/FeedPage";
+import AdminPage from "../pages/AdminPage";
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
         <Route path="/editar-perfil" element={<EditProfilePage />}/>
         <Route path="/aprender" element={<EducationPage />}/>
         <Route path="/educativo/:id" element={<ArticlePage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );

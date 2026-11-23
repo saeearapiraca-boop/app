@@ -1,0 +1,467 @@
+/* ==========================================================================
+   BLOQUEIO MOBILE (Telas menores que 1024px)
+   ========================================================================== */
+.admin-mobile-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 24px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.mobile-block-card {
+  background: #ffffff;
+  padding: 32px 24px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  max-width: 380px;
+}
+
+.mobile-block-card i {
+  font-size: 44px;
+  color: #3461A4;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.mobile-block-card h2 {
+  font-size: 20px;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.mobile-block-card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+}
+
+.btn-voltar-home {
+  background: #3461A4;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Esconde o painel completo no mobile */
+.admin-layout {
+  display: none;
+}
+
+/* ==========================================================================
+   LAYOUT DESKTOP (Telas >= 1024px)
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .admin-mobile-block {
+    display: none;
+  }
+
+  .admin-layout {
+    display: flex;
+    min-height: 100dvh;
+    background-color: #f8f9fa;
+  }
+
+  /* MENU LATERAL (SIDEBAR) */
+  .admin-sidebar {
+    width: 250px;
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    z-index: 100;
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 24px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 24px;
+  }
+
+  .sidebar-logo {
+    width: 95px;
+  }
+
+  .sidebar-badge {
+    background: #eef2ff;
+    color: #3461A4;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s ease;
+  }
+
+  .sidebar-item:hover {
+    background: #f1f5f9;
+    color: #1f2937;
+  }
+
+  .sidebar-item.active {
+    background: #3461A4;
+    color: #ffffff;
+  }
+
+  .sidebar-item i {
+    font-size: 18px;
+  }
+
+  .sidebar-footer {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 16px;
+  }
+
+  .sidebar-back-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .sidebar-back-btn:hover {
+    background: #f8f9fa;
+    color: #111827;
+  }
+
+  /* ÁREA PRINCIPAL AO LADO DA SIDEBAR */
+  .admin-main {
+    flex: 1;
+    margin-left: 250px; /* Compensa a largura fixa da sidebar */
+  }
+}
+
+/* ==========================================================================
+   ESTILOS DO CONTEÚDO
+   ========================================================================== */
+.admin-container {
+  width: 100%;
+  max-width: 100%; /* Ocupa toda a largura disponível ao lado da sidebar */
+  padding: 36px 36px 48px 36px;
+  box-sizing: border-box;
+  text-align: left; /* Reseta qualquer alinhamento centralizado global */
+}
+
+.admin-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.admin-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 6px 0;
+}
+
+.admin-header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.admin-status {
+  text-align: center;
+  padding: 20px;
+  color: #4b5563;
+  font-size: 15px;
+}
+
+.admin-status.erro {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Grid de Cards de KPIs */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.kpi-icon.total {
+  background-color: #eef2ff;
+  color: #3461A4;
+}
+
+.kpi-icon.aberto {
+  background-color: #fef2f2;
+  color: #c83e1c;
+}
+
+.kpi-icon.analise {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.kpi-icon.resolvido {
+  background-color: #ecfdf5;
+  color: #10b981;
+}
+
+.kpi-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kpi-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+}
+
+/* Área de Gráficos */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.chart-box {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.chart-box h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.empty-chart {
+  text-align: center;
+  color: #9ca3af;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   TABELA DE GERENCIAMENTO DE DENÚNCIAS (Padrão Alinhado à Esquerda)
+   ========================================================================== */
+.gestao-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
+}
+
+.gestao-toolbar {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.gestao-toolbar input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: #f8fafc;
+  color: #1f2937;
+  outline: none;
+}
+
+.gestao-toolbar select {
+  min-width: 190px;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: #f8fafc;
+  color: #1f2937; /* Garante texto visível */
+  cursor: pointer;
+  outline: none;
+}
+
+.gestao-toolbar input:focus,
+.gestao-toolbar select:focus {
+  border-color: #3461A4;
+  background-color: #ffffff;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left !important;
+}
+
+.admin-table th,
+.admin-table td {
+  text-align: left !important; /* Alinha cabeçalhos e células à esquerda */
+  padding: 14px 16px;
+  vertical-align: middle;
+}
+
+.admin-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.admin-table td {
+  border-bottom: 1px solid #f1f5f9;
+  color: #1f2937;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Larguras proporcionais para cada coluna */
+.col-id {
+  width: 100px;
+  font-family: monospace;
+  font-size: 13px;
+  color: #64748b !important;
+  white-space: nowrap;
+}
+
+.admin-table td strong {
+  display: block;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.table-desc {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.badge-tipo-admin {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.status-select-admin {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.status-select-admin.aberto {
+  background-color: #c83e1c;
+}
+
+.status-select-admin.analise {
+  background-color: #2563eb;
+}
+
+.status-select-admin.resolvido {
+  background-color: #10b981;
+}
+
+.empty-table {
+  text-align: center !important;
+  padding: 32px !important;
+  color: #6b7280;
+}
