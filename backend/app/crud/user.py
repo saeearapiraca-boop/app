@@ -12,13 +12,19 @@ def get_user_by_id(db: Session, user_id: str) -> User | None:
     return db.query(User).filter(User.id == user_id).first()
 
 
-def create_user(db: Session, user_in: UserCreate, hashed_password: str) -> User:
+def create_user(
+    db: Session,
+    user_in: UserCreate,
+    hashed_password: str,
+    is_admin: bool = False,
+) -> User:
     user = User(
         nome_completo=user_in.nome_completo,
         email=user_in.email,
         hashed_password=hashed_password,
         data_nascimento=user_in.data_nascimento,
         sexo=user_in.sexo,
+        is_admin=is_admin,
     )
     db.add(user)
     db.commit()

@@ -1,10 +1,19 @@
 import uuid
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    UploadFile,
+    status,
+)
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
+from app.api.deps import get_db, get_current_user, require_admin
 from app.schemas.ocorrencia import (
     OcorrenciaCreate, 
     OcorrenciaRead, 
@@ -110,6 +119,20 @@ def listar_ocorrencias(
 
 
 @router.get(
+    "/admin",
+    response_model=List[OcorrenciaRead],
+    summary="Listar ocorrências para administração",
+)
+def listar_ocorrencias_admin(
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=1000, ge=1, le=1000),
+    db: Session = Depends(get_db),
+    current_user=Depends(require_admin),
+) -> List[OcorrenciaRead]:
+    return get_all_ocorrencias(db=db, skip=skip, limit=limit)
+
+
+@router.get(
     "/dashboard",
     response_model=DashboardResponse,
     status_code=status.HTTP_200_OK,
@@ -118,16 +141,9 @@ def listar_ocorrencias(
 )
 def read_dashboard_summary(
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)
+    current_user=Depends(require_admin),
 ):
-    try:
-        return get_dashboard_data(db)
-    except Exception as exc:
-        print(f"[ERRO NO DASHBOARD]: {exc}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro interno ao processar os indicadores do dashboard."
-        )
+    return get_dashboard_data(db)
 
 @router.patch(
     "/{ocorrencia_id}/status",
@@ -139,7 +155,8 @@ def read_dashboard_summary(
 def atualizar_status_ocorrencia(
     ocorrencia_id: str,
     status_update: OcorrenciaUpdateStatus, 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user=Depends(require_admin),
 ):
     ocorrencia_existente = get_ocorrencia(db, ocorrencia_id=ocorrencia_id)
     if not ocorrencia_existente:

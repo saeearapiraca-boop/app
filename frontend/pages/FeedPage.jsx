@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OcorrenciaService } from "../src/services/ocorrenciaService";
+import UserService from "../src/services/userService";
 import ComentariosDrawer from "../src/components/ComentariosDrawer";
 import BottomNav from "../src/components/BottomNav";
 import "./FeedPage.css";
@@ -15,6 +16,7 @@ export default function FeedPage() {
   const [statusSalvando, setStatusSalvando] = useState(null);
   const [statusErro, setStatusErro] = useState(null);
   const [showFabMenu, setShowFabMenu] = useState(false);
+  const isAdmin = UserService.getUser()?.is_admin === true;
 
   // Armazena no navegador quais denúncias este usuário já curtiu
   const [likedPosts, setLikedPosts] = useState(() => {
@@ -255,26 +257,32 @@ export default function FeedPage() {
 
                 <div className="card-status">
                   <label htmlFor={`status-${item.id}`}>Status</label>
-                  <select
-                    id={`status-${item.id}`}
-                    className={getStatusClasse(item.status)}
-                    value={item.status || "Aberto"}
-                    disabled={statusSalvando === item.id}
-                    onChange={(e) => handleAlterarStatus(item.id, e.target.value)}
-                  >
-                    {STATUS_POSSIVEIS.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                  {statusSalvando === item.id && (
-                    <span className="status-aviso">salvando...</span>
-                  )}
-                  {statusErro === item.id && (
-                    <span className="status-aviso erro">
-                      não foi possível alterar
-                    </span>
+                  {isAdmin ? (
+                    <>
+                      <select
+                        id={`status-${item.id}`}
+                        className={getStatusClasse(item.status)}
+                        value={item.status || "Aberto"}
+                        disabled={statusSalvando === item.id}
+                        onChange={(e) => handleAlterarStatus(item.id, e.target.value)}
+                      >
+                        {STATUS_POSSIVEIS.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                      {statusSalvando === item.id && (
+                        <span className="status-aviso">salvando...</span>
+                      )}
+                      {statusErro === item.id && (
+                        <span className="status-aviso erro">
+                          não foi possível alterar
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <span>{item.status || "Aberto"}</span>
                   )}
                 </div>
               </article>

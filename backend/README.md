@@ -12,3 +12,7 @@ Instale as dependências:
 
 Rode o servidor: 
     uvicorn app.main:app --reload
+
+## Conta administrativa
+
+O painel `/admin` é liberado somente para usuários com `is_admin` no banco. 

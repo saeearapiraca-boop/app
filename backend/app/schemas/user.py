@@ -52,6 +52,7 @@ class UserRead(BaseModel):
     data_nascimento: date
     sexo: str
     is_active: bool
+    is_admin: bool
     created_at: datetime
 
     model_config = {"from_attributes": True}

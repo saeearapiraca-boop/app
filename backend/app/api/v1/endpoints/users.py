@@ -30,6 +30,17 @@ def login(
     return login_user(db=db, user_in=user_in)
 
 
+@router.get(
+    "/me",
+    response_model=UserRead,
+    summary="Obter usuário autenticado",
+)
+def get_current_user_profile(
+    current_user: User = Depends(get_current_user),
+) -> UserRead:
+    return current_user
+
+
 @router.post(
     "/",
     response_model=UserRead,
@@ -57,7 +68,13 @@ def create_user(
 def get_user(
     user_id: UUID,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> UserRead:
+    if str(user_id) != str(current_user.id) and not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Você só pode consultar seu próprio usuário.",
+        )
     user = crud_user.get_user_by_id(db, user_id=str(user_id))
     if not user:
         raise HTTPException(
@@ -78,7 +95,13 @@ def update_user(
     user_id: UUID,
     user_in: UserUpdate,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> UserRead:
+    if str(user_id) != str(current_user.id) and not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Você só pode atualizar seu próprio usuário.",
+        )
     user = crud_user.get_user_by_id(db, user_id=str(user_id))
     if not user:
         raise HTTPException(
@@ -112,7 +135,13 @@ def update_user(
 def delete_user(
     user_id: UUID,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ) -> None:
+    if str(user_id) != str(current_user.id) and not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Você só pode excluir seu próprio usuário.",
+        )
     user = crud_user.get_user_by_id(db, user_id=str(user_id))
     if not user:
         raise HTTPException(

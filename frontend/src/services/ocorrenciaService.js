@@ -1,3 +1,5 @@
+import UserService from "./userService";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 export const OcorrenciaService = {
@@ -22,13 +24,14 @@ export const OcorrenciaService = {
     return await res.json();
   },
 
-  // A rota de status nao exige autenticacao no backend: enquanto nao existir
-  // papel de administrador, qualquer usuario consegue alterar qualquer
-  // denuncia. Ver observacao no PR #101.
   async alterarStatus(ocorrenciaId, status) {
+    const token = UserService.getToken();
     const res = await fetch(`${API_BASE_URL}/api/v1/ocorrencias/${ocorrenciaId}/status`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
       body: JSON.stringify({ status }),
     });
     if (!res.ok) {

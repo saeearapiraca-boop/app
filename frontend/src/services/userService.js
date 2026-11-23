@@ -56,6 +56,24 @@ class UserService {
     return await response.json();
   }
 
+  static async getCurrentUser() {
+    const token = this.getToken();
+    const response = await fetch(`${API_BASE_URL}/api/v1/usuarios/me`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const error = new Error(errorData?.detail || `Erro ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+
+    const user = await response.json();
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  }
+
   static logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
