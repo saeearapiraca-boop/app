@@ -5,19 +5,31 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy import text
 
 from app.api.v1 import api_router
 from app.core.config import settings
 from app.core.health import get_database_info, verify_database_connection
 from app.core.logger import logger
-from app.db.database import Base, engine
+from app.db.database import Base, SessionLocal, engine
+from app.services.user import bootstrap_admin_user
 
 
 def startup():
     """Executa verificações e migrações ao iniciar a aplicação."""
     # Criar tabelas que ainda não existem no banco
     Base.metadata.create_all(bind=engine)
+    with engine.begin() as connection:
+        connection.execute(
+            text(
+                "ALTER TABLE users "
+                "ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE"
+            )
+        )
     logger.info("Tabelas verificadas/criadas com sucesso.")
+
+    with SessionLocal() as db:
+        bootstrap_admin_user(db)
 
     # Verificar conexão com banco de dados
     logger.info("\nVerificando conexão com banco de dados")

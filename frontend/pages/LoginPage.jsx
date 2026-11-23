@@ -36,9 +36,9 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      await UserService.loginUser(form.email.toLowerCase().trim(), form.senha);
+      const result = await UserService.loginUser(form.email.toLowerCase().trim(), form.senha);
       showToast("Login realizado!", "success");
-      setTimeout(() => navigate("/home"), 1500);
+      setTimeout(() => navigate(result.user.is_admin ? "/admin" : "/home"), 1500);
     } catch (error) {
       showToast(error.message, "error");
     } finally {

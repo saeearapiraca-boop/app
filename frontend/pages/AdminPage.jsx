@@ -31,6 +31,8 @@ export default function AdminPage() {
   const [ocorrencias, setOcorrencias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [authorized, setAuthorized] = useState(false);
+  const [checkingAccess, setCheckingAccess] = useState(true);
 
   // Estados da aba de gerenciamento
   const [busca, setBusca] = useState("");
@@ -40,28 +42,64 @@ export default function AdminPage() {
   const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
   useEffect(() => {
+    let active = true;
+
     async function carregarDados() {
       try {
         const token = UserService.getToken();
-        const res = await fetch(`${baseUrl}/api/v1/ocorrencias/`, {
+        if (!token) {
+          navigate("/login", { replace: true });
+          return;
+        }
+
+        const user = await UserService.getCurrentUser();
+        if (!user.is_admin) {
+          navigate("/home", { replace: true });
+          return;
+        }
+        if (!active) return;
+        setAuthorized(true);
+
+        const res = await fetch(`${baseUrl}/api/v1/ocorrencias/admin`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
 
         if (!res.ok) {
-          throw new Error("Erro ao carregar dados das ocorrências.");
+          const error = new Error(
+            "Erro ao carregar dados das ocorrências administrativas."
+          );
+          error.status = res.status;
+          throw error;
         }
 
         const data = await res.json();
-        setOcorrencias(Array.isArray(data) ? data : []);
+        if (active) setOcorrencias(Array.isArray(data) ? data : []);
       } catch (err) {
-        setError(err.message);
+        if (err.status === 401) {
+          UserService.logout();
+          navigate("/login", { replace: true });
+        } else if (err.status === 403) {
+          navigate("/home", { replace: true });
+        } else if (active) {
+          setError(err.message);
+        }
       } finally {
-        setLoading(false);
+        if (active) {
+          setCheckingAccess(false);
+          setLoading(false);
+        }
       }
     }
 
     carregarDados();
-  }, [baseUrl]);
+    return () => {
+      active = false;
+    };
+  }, [baseUrl, navigate]);
+
+  if (checkingAccess || !authorized) {
+    return null;
+  }
 
   // Alterar status direto na tabela
   const handleAlterarStatus = async (id, novoStatus) => {

@@ -6,7 +6,8 @@ def migrate():
         connection.execute(text("""
             ALTER TABLE users 
             ADD COLUMN IF NOT EXISTS data_nascimento DATE,
-            ADD COLUMN IF NOT EXISTS sexo VARCHAR(20);
+            ADD COLUMN IF NOT EXISTS sexo VARCHAR(20),
+            ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE;
         """))
         connection.execute(text("""
             ALTER TABLE ocorrencias
