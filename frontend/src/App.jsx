@@ -11,6 +11,7 @@ import ArticlePage from "../pages/ArticlePage";
 import MapPage from "../pages/MapPage";
 import FeedPage from "../pages/FeedPage";
 import AdminPage from "../pages/AdminPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -28,7 +29,14 @@ function App() {
         <Route path="/editar-perfil" element={<EditProfilePage />}/>
         <Route path="/aprender" element={<EducationPage />}/>
         <Route path="/educativo/:id" element={<ArticlePage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

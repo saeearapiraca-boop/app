@@ -80,6 +80,9 @@ export default function AdminPage() {
           navigate("/login", { replace: true });
         } else if (err.status === 403) {
           navigate("/home", { replace: true });
+        } else if (!navigator.onLine) {
+          UserService.logout();
+          navigate("/login", { replace: true });
         } else if (active) {
           setError(err.message);
         }
